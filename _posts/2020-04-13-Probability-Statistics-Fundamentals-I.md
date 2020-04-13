@@ -10,7 +10,7 @@ toc_label: "Table of Contents"
 toc_icon: "file-alt"
 ---
 
-Disclaimer: The notes from this post were taken from the works listed in the [References](#References) section. The intention of this posts series is to provide a summary of Probability & Statistics.
+Disclaimer: The notes and images from this post were taken from the books/works listed in the [References](#References) section. The intention of this post is to provide a summary of Probability & Statistics.
 
 ## Random Variables
 
