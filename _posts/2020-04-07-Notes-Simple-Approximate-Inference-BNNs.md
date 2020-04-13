@@ -18,7 +18,12 @@ Disclaimer: The notes from this post were taken from the works listed in the [Re
 
 <!-- <img src="{{ site.url }}{{ site.baseurl }}/images/SimpleApproximateInferenceBNNs/BNNs-image.png" alt="Deterministic Neural Network vs Bayesian Neural Network" class="centerImage"> -->
 
-![Deterministic Neural Network vs Bayesian Neural Network]({{ site.url }}{{ site.baseurl }}/images/SimpleApproximateInferenceBNNs/BNNs-image.png){: .align-center}
+<figure style="width:80%" class="align-center">
+  <a href="{{ site.url }}{{ site.baseurl }}/images/SimpleApproximateInferenceBNNs/BNNs-image.png"><img src="{{ site.url }}{{ site.baseurl }}/images/SimpleApproximateInferenceBNNs/BNNs-image.png"></a>
+  <figcaption><p style="text-align:center">Figure 1: Deterministic Neural Network vs Bayesian Neural Network</p></figcaption>
+</figure>
+
+<!-- ![Deterministic Neural Network vs Bayesian Neural Network]({{ site.url }}{{ site.baseurl }}/images/SimpleApproximateInferenceBNNs/BNNs-image.png){: .align-center} -->
 
 - The main benefit of using a Bayesian framework is that allows to propagate uncertainty to improve prediction and model reasoning. In this sense, is important that each component of a system computes an accurate estimate of uncertainty to later reflect the true uncertain in the system.
 
