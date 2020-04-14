@@ -133,8 +133,8 @@ The important point is that $f(x)$ is used to calculate an area that represents 
 An alternative method to describe the distribution of a continuous random variable can also be use in the same way as for discrete random variables. The cumulative distribution function is defined for all real numbers.
 
 <figure style="width:80%" class="align-center">
-  <a href="{{ site.url }}{{ site.baseurl }}/images/Prob-Stats-Fund-I/pdf_properties.png"><img src="{{ site.url }}{{ site.baseurl }}/images/Prob-Stats-Fund-I/pdf_properties.png"></a>
-  <figcaption><p style="text-align:center">Figure 10: Cumulative Distribution Function</p></figcaption>
+  <a href="{{ site.url }}{{ site.baseurl }}/images/Prob-Stats-Fund-I/cdf_crv.png"><img src="{{ site.url }}{{ site.baseurl }}/images/Prob-Stats-Fund-I/cdf_crv.png"></a>
+  <figcaption><p style="text-align:center">Figure 10: Cumulative Distribution Function for a Continuous Random Variable</p></figcaption>
 </figure>
 
 The probability density function of a continuous random variable can be determined from the cumulative distribution function by differentiating. The fundamental theorem of calculus states that
