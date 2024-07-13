@@ -146,7 +146,7 @@ where $l$ is a user-defined length scale, $p$ is the probability of units not be
 
 1. _Concrete Problems for Autonomous Vehicle Safety: Advantages of Bayesian Deep Learning_. R McAllister, Y. Gal, A. Kendall, et al. IJCAI 2017
 
-2. _Evaluating Quantification in End-to-End Autonomous Driving Control_. R Michelmore, M Kwiatkowska, Y Gal. 16/11/2018
+2. _Evaluating Uncertainty Quantification in End-to-End Autonomous Driving Control_. R Michelmore, M Kwiatkowska, Y Gal. 16/11/2018
 
 3. _Uncertainty Quantification with Statistical Guaranteees in End-to-End Autonomous Driving Control_. R Michelmore, M Wicker, L Laurenti, L Cardelli, Y Gal, M Kwiatkowska. 21/09/2019
 

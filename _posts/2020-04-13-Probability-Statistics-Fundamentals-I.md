@@ -15,12 +15,19 @@ Disclaimer: The notes and images from this post were taken from the books/works 
 
 A random variable can be seen as the name of an experiment with a probabilistic outcome. It’s value is the outcome of that experiment - _Tom Mitchell, 1997_
 
-> <em>
+> Definitions
+>>  *__Definition 1__*:<br />
+     A random variable is a function that assigns a real number to each outcome in the sample space of a random experiment [[1]](#ref_1).<br /><br />
+>>  *__Definition 2__*:<br />
+    For a given sample space $\mathcal{S}$ of some experiment, a random variable (rv) is any rule that associates a number with each outcome in $S$. In mathematical language, a random variable is a function whose domain is the sample space and whose range is the set of real numbers [[2]](#ref_2).
+{: .prompt-info }
+
+<!-- > <em>
     __Definition 1__:<br />
      A random variable is a function that assigns a real number to each outcome in the sample space of a random experiment [[1]](#ref_1).<br /><br />
     __Definition 2__:<br />
     For a given sample space $\mathcal{S}$ of some experiment, a random variable (rv) is any rule that associates a number with each outcome in $S$. In mathematical language, a random variable is a function whose domain is the sample space and whose range is the set of real numbers [[2]](#ref_2).
-</em>
+</em> -->
 
 A random variable is denoted by an uppercase letter such as $X$. After an experiment is conducted, the measured value of the random variable is denoted by a lowercase letter such as $x = 70$ milliamperes.
 
@@ -102,7 +109,7 @@ _Figure 8: Probability Determined from the area under $f(x)$_
 
 A probability density function (pdf) provides a simple description of the probabilities associated with a random variable. A pdf is zero for x values that cannot occur, and it is assumed to be zero wherever it is not specifically defined.
 
-The important point is that $f(x)$ is used to calculate an area that represents the probability that $X$ assumes a value in $\[a, b\]$
+The important point is that $f(x)$ is used to calculate an area that represents the probability that $X$ assumes a value in $[a, b]$
 
 ![Figure 9: Probability Density Function Properties](pdf_properties.png)
 _Figure 9: Probability Density Function Properties_
@@ -139,7 +146,7 @@ The expected value of a function $h(X)$ of a continuous random variable is also 
 ![Figure 13: Expected Value of a Function of a Continuous Random Variable](expected_val_func_crv.png)
 _Figure 13: Expected Value of a Function of a Continuous Random Variable_
 
-In the special case that $h(X) = aX+b$, for any constants $a$ and $b$, $\mathbb{E}\[h(X)\] = a\mathbb{E}(X)+ b$. This can be shown from the properties of integrals.
+In the special case that $h(X) = aX+b$, for any constants $a$ and $b$, $\mathbb{E}[h(X)] = a \; \mathbb{E}(X)+ b$. This can be shown from the properties of integrals.
 
 
 
