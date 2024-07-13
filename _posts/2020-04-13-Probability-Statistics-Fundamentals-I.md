@@ -19,7 +19,7 @@ A random variable can be seen as the name of an experiment with a probabilistic 
     __Definition 1__:<br />
      A random variable is a function that assigns a real number to each outcome in the sample space of a random experiment [[1]](#ref_1).<br /><br />
     __Definition 2__:<br />
-    For a given sample space $S$ of some experiment, a random variable (rv) is any rule that associates a number with each outcome in $S$. In mathematical language, a random variable is a function whose domain is the sample space and whose range is the set of real numbers [[2]](#ref_2).
+    For a given sample space $\mathcal{S}$ of some experiment, a random variable (rv) is any rule that associates a number with each outcome in $S$. In mathematical language, a random variable is a function whose domain is the sample space and whose range is the set of real numbers [[2]](#ref_2).
 </em>
 
 A random variable is denoted by an uppercase letter such as $X$. After an experiment is conducted, the measured value of the random variable is denoted by a lowercase letter such as $x = 70$ milliamperes.
