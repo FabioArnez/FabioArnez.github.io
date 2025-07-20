@@ -440,16 +440,8 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-a-simple-inline-announcement",
-          title: 'A simple inline announcement.',
-          description: "",
-          section: "News",},{id: "news-a-long-announcement-with-details",
-          title: 'A long announcement with details',
-          description: "",
-          section: "News",handler: () => {
-              window.location.href = "/news/announcement_2/";
-            },},{id: "news-a-simple-inline-announcement-with-markdown-emoji-sparkles-smile",
-          title: 'A simple inline announcement with Markdown emoji! :sparkles: :smile:',
+            },},{id: "news-our-work-was-featured-in-the-cea-list-research-report-sparkles-smile-check-out-the-full-report-here-a-safety-supervision-environment-for-autonomous-systems-cea-list-has-developed-a-runtime-safety-supervision-environment-for-autonomous-systems-built-using-ai-it-factors-in-the-uncertainties-related-to-the-system-and-to-its-environment-to-effectively-determine-the-level-of-safety-and-potential-risks-the-system-has-been-evaluated-on-an-autonomous-drone-uav-use-case",
+          title: 'Our work was featured in the CEA List Research Report! :sparkles: :smile: Check...',
           description: "",
           section: "News",},{id: "projects-project-1",
           title: 'project 1',
