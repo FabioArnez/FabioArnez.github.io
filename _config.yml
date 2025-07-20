@@ -2,7 +2,7 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: blank # the website title (if blank, full name will be used instead)
+title: Fabio Arnez # the website title (if blank, full name will be used instead)
 first_name: Fabio
 middle_name: Alejandro
 last_name: Arnez Yagualca
@@ -30,7 +30,7 @@ back_to_top: true # set to false to disable the back to top button
 
 # repo color theme
 repo_theme_light: default # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
-repo_theme_dark: monokai # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
+repo_theme_dark: nord # https://github.com/anuraghazra/github-readme-stats/blob/master/themes/README.md
 repo_trophies:
   enabled: true
   theme_light: flat # https://github.com/ryo-ma/github-profile-trophy
@@ -86,8 +86,8 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: al-folio # blog_name will be displayed in your blog page
-blog_description: a simple whitespace theme for academics
+blog_name: Fabio's Blog # blog_name will be displayed in your blog page
+blog_description: posts about my academic/professional and personal life.
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
