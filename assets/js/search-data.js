@@ -425,6 +425,11 @@ ninja.data = [{
           description: "France 2030 programme",
           section: "Projects",handler: () => {
               window.location.href = "/projects/2_confiance-ai/";
+            },},{id: "projects-deepgreen-project",
+          title: 'DeepGreen Project',
+          description: "France 2030 programme",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/3_deepgreen/";
             },},{
         id: 'social-email',
         title: 'email',
