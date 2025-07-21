@@ -415,12 +415,7 @@ ninja.data = [{
             },},{id: "news-our-work-was-featured-in-the-cea-list-research-report-sparkles-smile-check-out-the-full-report-here-a-safety-supervision-environment-for-autonomous-systems-cea-list-has-developed-a-runtime-safety-supervision-environment-for-autonomous-systems-built-using-ai-it-factors-in-the-uncertainties-related-to-the-system-and-to-its-environment-to-effectively-determine-the-level-of-safety-and-potential-risks-the-system-has-been-evaluated-on-an-autonomous-drone-uav-use-case",
           title: 'Our work was featured in the CEA List Research Report! :sparkles: :smile: Check...',
           description: "",
-          section: "News",},{id: "projects-project-5",
-          title: 'project 5',
-          description: "a project with a background image",
-          section: "Projects",handler: () => {
-              window.location.href = "/projects/5_project/";
-            },},{
+          section: "News",},{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
