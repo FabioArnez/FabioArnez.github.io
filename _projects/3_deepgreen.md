@@ -9,7 +9,9 @@ related_publications: false
 published: true
 ---
 
-> Project Status: Ongoing
+{% alert note %}
+Project Status: Ongoing
+{% endalert %}
 
 The DeepGreen project mission is to bring leading French partners from research and industry together with hardware solutions vendors to develop a dedicated embedded AI software platform. This platform is to offer reliable and powerful solutions for deploying low-energy, low-memory embedded AI applications that meet not only the needs of industry, but also the imperatives of the environment. In this context, the DeepGreen collective is leading the development of the first independent and sovereign software platform dedicated to embedded AI, the [Eclipse Aidge platform](https://gitlab.eclipse.org/eclipse/aidge/aidge).
 
