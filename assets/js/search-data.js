@@ -44,6 +44,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
+        },{id: "nav-team",
+          title: "team",
+          description: "Members of the Trustworthy Deep Learning Team from CEA.LIST.DILS.LSEA",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/people/";
+          },
         },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
