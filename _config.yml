@@ -190,7 +190,6 @@ exclude:
   - _pages/cv.md
   - _pages/books.md
   - _pages/dropdown.md
-  - _pages/profiles.md
   - purgecss.config.js
   - README.md
   - readme_preview/
