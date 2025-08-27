@@ -6,6 +6,7 @@ description: this is what advanced image components could look like
 tags: formatting images
 categories: sample-posts
 thumbnail: assets/img/9.jpg
+published: false
 images:
   compare: true
   slider: true
