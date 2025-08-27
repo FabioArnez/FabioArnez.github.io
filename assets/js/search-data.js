@@ -25,7 +25,7 @@ ninja.data = [{
           },
         },{id: "nav-projects",
           title: "projects",
-          description: "A growing collection of your cool projects.",
+          description: "Participation on industry-driven projects involving Trustworthy AI, funded by the European Union and the French government.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
