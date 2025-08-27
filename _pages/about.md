@@ -27,7 +27,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I'm a research engineer at the CEA-List Institute, Laboratory of Embedded and Autonomous Systems (LSEA), in France, where I delve into the fascinating world of trustworthy deep learning for automated systems. I actively contribute to cutting-edge, industry-driven projects on Trustworthy AI, funded by the European Union and the French government. My work is not just a job; it's a mission to ensure that the AI technologies shaping our future are both innovative and reliable.
+I'm a research engineer at the CEA-List Institute, Laboratory of Embedded and Autonomous Systems (LSEA), in France, where I delve into the fascinating world of trustworthy deep learning for automated systems. I actively contribute to cutting-edge, industry-driven projects on Trustworthy AI, funded by the European Union and the French government. My work is not just a job; it's a mission to ensure that the AI technologies shaping our future are both innovative and **reliable**.
 
 I hold a Ph.D. in Computer Science from Université Paris-Saclay, France, which has provided me with a solid academic foundation that fuels my professional endeavors.
 My main research interests lie in uncertainty estimation in DNNs, out-of-distribution detection in DNN-based computer vision components, LLMs & VLMs hallucination detection, and world models. My work is particularly focused on embodied AI for automated robots and autonomous vehicles applications, where precision and reliability are paramount.
