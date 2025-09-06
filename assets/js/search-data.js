@@ -9,12 +9,12 @@ ninja.data = [{
     handler: () => {
       window.location.href = "/";
     },
-  },{id: "nav-blog",
-          title: "blog",
-          description: "",
+  },{id: "nav-cv",
+          title: "cv",
+          description: "This is a summary of my CV",
           section: "Navigation",
           handler: () => {
-            window.location.href = "/blog/";
+            window.location.href = "/cv/";
           },
         },{id: "nav-publications",
           title: "publications",
@@ -30,6 +30,20 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-team",
+          title: "team",
+          description: "Members of the Trustworthy Deep Learning Team from CEA.LIST.DILS.LSEA",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/people/";
+          },
+        },{id: "nav-blog",
+          title: "blog",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/blog/";
+          },
         },{id: "nav-repositories",
           title: "repositories",
           description: "My github account and selected repositories.",
@@ -43,13 +57,6 @@ ninja.data = [{
           section: "Navigation",
           handler: () => {
             window.location.href = "/teaching/";
-          },
-        },{id: "nav-team",
-          title: "team",
-          description: "Members of the Trustworthy Deep Learning Team from CEA.LIST.DILS.LSEA",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/people/";
           },
         },{id: "post-probability-amp-statistics-fundamentals-part-i",
         
