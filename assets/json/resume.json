@@ -60,7 +60,7 @@
       "startDate": "2016-05",
       "endDate": "2014-05",
       "summary": "UAV Computer Vision, Navigation, and Embedded Systems development",
-      "highlights": ["NIR image processing for NDVI", "power transmission lines detection", "ROS integration and PX4 autopilot development"]
+      "highlights": ["UAV localization & navigation", "ROS integration", "Embedded systems and PX4 autopilot development"]
     },
     {
       "name": "Universidad Privada Boliviana",
@@ -75,7 +75,7 @@
   ],
   "education": [
     {
-      "institution": "Universite Paris-Saclay",
+      "institution": "Université Paris-Saclay",
       "location": "Palaiseau, France",
       "url": "https://www.universite-paris-saclay.fr/",
       "area": "Deep Learning Uncertainty Quantification, Trustworthy AI, AI-Safety",
@@ -85,23 +85,23 @@
       "courses": ["Ph.D. Thesis Title: Deep Neural Network Uncertainty Runtime Monitoring for Robust and Safe AI-based Automated Navigation"]
     },
     {
-      "institution": "University of Applied Arts and Science of Souther Switzerland - SUPSI",
+      "institution": "University of Applied Arts and Science of Southern Switzerland (SUPSI)",
       "location": "Lugano, Switzerland",
       "url": "https://www.supsi.ch/",
       "area": "Precision Systems and Telecom",
-      "studyType": "Master of Science in Engineering - Embedded Sytems and Microelectronics",
+      "studyType": "MSc. in Engineering - Embedded Sytems and Microelectronics",
       "startDate": "2016-09",
       "endDate": "2018-07",
       "courses": ["MSc. Thesis Title: Real-Time Human Footstep Recognition on Smart Anti-Static Floor"]
     },
     {
-      "institution": "Universidad Privada Boliviana",
+      "institution": "Universidad Privada Boliviana (UPB)",
       "location": "Cochabamba, Bolivia",
       "url": "https://www.upb.edu/",
       "area": "Embedded Systems and IoT",
       "studyType": "BSc. in Electronics and Telecommunications Engineering",
       "startDate": "2008-02",
-      "endDate": "2013-04",
+      "endDate": "2014-05",
       "courses": ["Grade Project Title: VIRMS – A Vehicle Information and Road Monitoring System"]
     }
   ],
