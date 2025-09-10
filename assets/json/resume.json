@@ -50,7 +50,7 @@
       "startDate": "2016-09",
       "endDate": "2018-09",
       "summary": "Embedded Systems and IoT R&D",
-      "highlights": ["Embedded Machine Learning","IoT protocol design and implementation", "RF PCB Design"]
+      "highlights": ["Embedded Machine Learning for signal classification","Embedded systems prototyping for wireless IoT applications (802.15.4, Bluetooth)", "RF PCB Design"]
     },
     {
       "name": "Jalasoft",
@@ -60,7 +60,7 @@
       "startDate": "2016-05",
       "endDate": "2014-05",
       "summary": "UAV Computer Vision, Navigation, and Embedded Systems development",
-      "highlights": ["UAV localization & navigation", "ROS integration", "Embedded systems and PX4 autopilot development"]
+      "highlights": ["UAV localization & navigation", "ROS integration", "Embedded systems and PX4/Pixhawk autopilot development"]
     },
     {
       "name": "Universidad Privada Boliviana",
