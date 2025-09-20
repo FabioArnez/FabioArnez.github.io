@@ -47,8 +47,8 @@
       "position": "Research Assistant",
       "location": "Lugano, Switzerland",
       "url": "https://www.supsi.ch/",
-      "startDate": "2016-08",
-      "endDate": "2018-09",
+      "startDate": "2016-09",
+      "endDate": "2018-08",
       "summary": "Embedded Systems and IoT R&D",
       "highlights": ["Embedded Machine Learning for signal classification","Embedded systems prototyping for wireless IoT applications (802.15.4, Bluetooth)", "RF PCB Design"]
     },
