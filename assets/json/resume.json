@@ -142,6 +142,13 @@
       "releaseDate": "2025-06",
       "url": "https://www.arxiv.org/abs/2506.14008",
       "summary": "This paper shows that the current evaluation protocol for OOD-OD violates the assumption of non-overlapping objects with respect to the In-Distribution (ID) datasets, and obscures crucial situations such as ignoring unknown objects, potentially leading to overconfidence in deployment scenarios where truly novel objects might be encountered. To address these limitations, we manually curate, and enrich the existing benchmark by exploiting semantic similarity to create new evaluation splits categorized as near, far, and farther from ID distributions. Additionally, we incorporate established metrics from the Open Set community, providing deeper insights into how effectively methods detect unknowns, when they ignore them, and when they mistakenly classify OOD objects as ID. Our comprehensive evaluation demonstrates that semantically and visually close OOD objects are easier to localize than far ones, but are also more easily confounded with ID objects. Far and farther objects are harder to localize but less prone to be taken for an ID object."
+    },
+    {
+      "name": "Can Less Precise Be More Reliable? A Systematic Evaluation of Quantization's Impact on CLIP Beyond Accuracy",
+      "publisher": "ArXiV",
+      "releaseDate": "2025-09",
+      "url": "https://arxiv.org/abs/2509.21173",
+      "summary": "This work presents a large-scale evaluation of quantization on CLIP models, assessing not only in-distribution accuracy but a comprehensive suite of reliability metrics and revealing counterintuitive results driven by pre-training source. We demonstrate that quantization consistently improves calibration for typically underconfident pre-trained models, while often degrading it for overconfident variants. Intriguingly, this degradation in calibration does not preclude gains in other reliability metrics; we find that OOD detection can still improve for these same poorly calibrated models. Furthermore, we identify specific quantization-aware training (QAT) methods that yield simultaneous gains in zero-shot accuracy, calibration, and OOD robustness, challenging the view of a strict efficiency-performance trade-off. These findings offer critical insights for navigating the multi-objective problem of deploying efficient, reliable, and robust VLMs by utilizing quantization beyond its conventional role."
     }    
   ],
   // "skills": [
