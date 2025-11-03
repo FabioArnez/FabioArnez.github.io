@@ -4,7 +4,7 @@ title: projects
 permalink: /projects/
 description: Participation on industry-driven projects involving Trustworthy AI, funded by the European Union and the French government. 
 nav: true
-nav_order: 3
+nav_order: 4
 display_categories: [work]
 # display_categories: [work, fun]
 horizontal: false

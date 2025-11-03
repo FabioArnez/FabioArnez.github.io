@@ -4,7 +4,7 @@ permalink: /people/
 title: team
 description: Members of the Trustworthy Deep Learning Team from CEA.LIST.DILS.LSEA
 nav: true
-nav_order: 4
+nav_order: 5
 
 profiles:
   # if you want to include more than one profile, just replicate the following block
