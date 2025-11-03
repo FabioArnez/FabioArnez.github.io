@@ -7,7 +7,8 @@ description: "Quantifying and using uncertainty in Bayesian deep learning system
 # appendix: true
 citation: true
 tikzjax: true
-published: false
+published: true
+thumbnail: assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-Nav-AirSim.gif
 bibliography: 2025-10-25-UQBDLSys.bib
 authors:
   - name: Fabio Arnez
