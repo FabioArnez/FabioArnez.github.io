@@ -25,6 +25,8 @@ toc:
       - name: Uncertainty From Perception Representations
       - name: Learning a Probabilistic Control Policy
       - name: Handling Input Uncertainty In The Control Policy
+  - name : Navigation Performance Evaluation
+  - name : Leveraging System Uncertainty for Better Navigation Performance
   - name: Conclusion
 
 _styles: >
@@ -231,7 +233,61 @@ The inner integral is approximated by taking a set of samples from the perceptio
 
 From the control policy perspective, using multiple latent samples $\mathbf{z}$ can be seen as taking a better "picture" of the latent space (perception representation) to gather more information about the environment. Interestingly, we can also make a connection between our sampling approach and the works <d-cite key="tai2019visual,zhang2022memo"></d-cite> that aim at sampling the input space by performing translations and augmentations on input images to improve prediction robustness.
 
+Finally, to control the UAV, we use the deep ensemble expected value of the predicted velocities, as suggested in the literature <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>. This means that we use, $$\mathbf{\hat{y}}_{\mu} = \mathbb{E}([\mu_{\dot{x}}, \mu_{\dot{y}}, \mu_{\dot{z}}, \mu_{\dot{\psi}}])$$. These predicted velocities represent the desired or reference velocities that are passed to AirSim's low-level control through its API.
+
 ## Navigation Performance Evaluation
+
+The goal of the UAV is to navigate through a set of gates with unknown locations, forming a circular track. In AirSim, a track is entirely defined by a set of gates, their poses in the space, and the agent navigation direction. For perception-based navigation, the complexity of a track resides in the _"gate-visibility"_ difficulty <d-cite key="madaan2020airsim,song2021autonomous"></d-cite>, i.e., how well the UAV camera Field-of-View (FoV) captures the target gate.
+
+We evaluate the navigation system using a circular track with eight equally spaced gates positioned initially at a radius of 8 m and constant height, as shown in <a href="#fig:track-without-noise">Figure 8</a>. A natural way to increase track complexity is by adding a random displacement to the position of each gate in the track, i.e., introducing operational domain shift (a factor that influences model predictive uncertainty). A track without random displacement in the gates has a circular fashion. Gate position randomness alters the shape of the track, affecting the gate visibility, as presented in <a href="#fig:track-with-noise">Figure 9</a>, and therefore, the generation of shifted images is more likely to happen, e.g., gates are _"not visible, partially visible, or multiple gates"_ can be captured in the UAV FoV.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <a id="fig:track-without-noise"></a>
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/track_without_noise.png" class="img-fluid rounded z-depth-1" zoomable=true%}
+    </div>
+</div>
+<div class="caption">
+    Figure 8: UAV navigation circular track without noise. Birds-eye view (left), and the UAV view perspective (right).
+</div>
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        <a id="fig:track-with-noise"></a>
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/track_with_noise.png" class="img-fluid rounded z-depth-1" zoomable=true%}
+    </div>
+</div>
+<div class="caption">
+    Figure 8: UAV navigation circular track with noise. Birds-eye view (left), and the UAV view perspective (right).
+</div>
+
+To assess the system performance and robustness to perturbations in the environment, we generate new tracks adding an offset to each gate radius and height with random noise. We specify the Gate Radius Noise (GRN) and the Gate Height Noise (GHN) with two levels of track noise, as follows:
+
+$$
+\begin{align*}
+    \text{Noise level 1}
+    \begin{cases}
+        GRN \sim \mathcal{U}[-1.0, 1.0)\\
+        GHN \sim \mathcal{U}[0, 2.0)
+    \end{cases} & \;\;\;\;\;
+    \text{Noise level 2}
+    \begin{cases}
+        GRN \sim \mathcal{U}[-1.5, 1.5)\\
+        GHN \sim \mathcal{U}[0, 3.0)
+    \end{cases}
+\end{align*}
+$$
+
+
+
+In this regard, with this experimental setup we seek to answer the following research question:
+>   *__Can we improve the UAV performance and robustness to perturbations of the environment by using an uncertianty-aware DL-based navigation architecture?__*
+
+### Results
+
+Ideally, we would expect the UAV to have a more robust and stable navigation performance by the full uncertainty-aware navigation architecture and by using the expected value of the predicted velocities <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>, at the output of the system or the control component. To see if this premise holds, we compare the navigation performance from different UAV uncertainty-aware navigation architectures.
+ 
+## Leveraging System Uncertainty for Better Navigation Performance
 
 ToDo ToDo
 
