@@ -108,6 +108,12 @@
       <d-bibliography src="{{ page.bibliography | prepend: '/assets/bibliography/' | relative_url }}"></d-bibliography>
 
       <d-article>
+        {% if page.citation %}
+          {% include citation.liquid %}
+        {% endif %}
+      </d-article>
+
+      <d-article>
         {% if site.related_blog_posts and site.related_blog_posts.enabled %}
           {% if page.related_posts == null or page.related_posts %}
             {% include related_posts.liquid %}
