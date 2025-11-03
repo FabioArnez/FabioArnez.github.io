@@ -58,7 +58,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/teaching/";
           },
-        },{id: "post-probability-amp-statistics-fundamentals-part-i",
+        },{id: "post-quantifying-and-using-uncertainty-in-deep-learning-based-uav-navigation",
+        
+          title: "Quantifying and Using Uncertainty in Deep Learning-based UAV Navigation",
+        
+        description: "Quantifying and using uncertainty in Bayesian deep learning systems",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/UQ-BDL-UAV-System/";
+          
+        },
+      },{id: "post-probability-amp-statistics-fundamentals-part-i",
         
           title: "Probability &amp; Statistics Fundamentals: Part I",
         
@@ -115,6 +126,9 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "news-our-paper-oracle-guided-soft-shielding-for-safe-move-prediction-in-chess-was-accepted-at-icmla-2025-tada-tada-tada-oracle-guided-soft-shielding-for-safe-move-prediction-in-chess-authors-prajit-t-rajendran-fabio-arnez-huascar-espinoza-agnes-delaborde-chokri-mraidha-icmla-2025-website-icmla-2025-accepted-papers-here",
           title: 'Our paper “Oracle-Guided Soft Shielding for Safe Move Prediction in Chess” was accepted...',
+          description: "",
+          section: "News",},{id: "news-new-blog-post-uncetainty-quantification-amp-amp-propagation-in-a-dnn-based-navigation-system-after-long-long-pause-in-writing-blog-content-i-wrote-a-new-post-about-uncertainty-quantification-amp-amp-propagation-in-a-dnn-based-navigation-system-the-post-describes-how-to-quantify-and-propagate-uncertainty-in-a-minimalistic-uav-drone-dnn-based-navigation-system-2-neural-networks-and-shows-how-to-use-uncertainty-to-improve-the-navigation-system-s-performance-inside-the-airsim-simulation-environment-for-more-details-check-the-post-here",
+          title: 'New Blog Post: Uncetainty Quantification &amp;amp;amp; Propagation in a DNN-based Navigation System After...',
           description: "",
           section: "News",},{id: "projects-comp4drones-project",
           title: 'Comp4Drones Project',
