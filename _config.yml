@@ -2,7 +2,7 @@
 # Site settings
 # -----------------------------------------------------------------------------
 
-title: Fabio Arnez # the website title (if blank, full name will be used instead)
+title: Fabio Arnez - Personal Website # the website title (if blank, full name will be used instead)
 first_name: Fabio
 middle_name: Alejandro
 last_name: Arnez Yagualca
@@ -348,7 +348,7 @@ filtered_bibtex_keywords:
     additional_info,
     altmetric,
     annotation,
-    arxiv,
+    # arxiv,
     award,
     award_name,
     bibtex_show,
@@ -360,7 +360,7 @@ filtered_bibtex_keywords:
     hal,
     html,
     inspirehep_id,
-    pdf,
+    # pdf,
     pmid,
     poster,
     preview,
@@ -368,11 +368,11 @@ filtered_bibtex_keywords:
     slides,
     supp,
     video,
-    website,
+    # website,
   ]
 
 # Maximum number of authors to be shown for each publication (more authors are visible on click)
-max_author_limit: 3 # leave blank to always show all authors
+max_author_limit: 5 # leave blank to always show all authors
 more_authors_animation_delay: 10 # more authors are revealed on click using animation; smaller delay means faster animation
 
 # Enables publication thumbnails. If disabled, none of the publications will display thumbnails, even if specified in the bib entry.
