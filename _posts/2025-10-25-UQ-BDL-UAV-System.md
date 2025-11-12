@@ -7,6 +7,7 @@ description: "Quantifying and using uncertainty in Bayesian deep learning system
 # appendix: true
 citation: true
 tikzjax: true
+pretty_table: true
 published: true
 thumbnail: assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-Nav-AirSim.gif
 bibliography: 2025-10-25-UQBDLSys.bib
@@ -283,10 +284,43 @@ $$
 In this regard, with this experimental setup we seek to answer the following research question:
 >   *__Can we improve the UAV performance and robustness to perturbations of the environment by using an uncertianty-aware DL-based navigation architecture?__*
 
+### Navigation Models Setup
+
+__Navigation Models Trainind Datasets.__ 
+
+__Navigation Models Baselines.__ Ideally, we would expect the UAV to have a more robust and stable navigation performance with a full uncertainty-aware navigation architecture and by using the expected value of the predicted velocities <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>, at the output of the system or the control component. To see if this premise holds, we compare the navigation performance from different UAV uncertainty-aware navigation architectures. The navigation models are listed below in <a href="#table:nav-models">Table 1</a>, showing the uncertainty-aware navigation architectures used in our experiments, and detailing the type of perception component, the number of latent representation samples (LRS), the type of control policy, and the number of control prediction samples (CPS) at the output of the system, as presented below:
+
+<!-- |    Model     | Perception Encoder |    LR Samples   |         Control Policy       |       CPS       |
+| :----------: | :----------------: | :-------------: | :--------------------------: | :-------------: |
+|     M1.      |        CMVAE       |        32       |    Ensemble Prob. (N = 5)    |      160        |
+|     M2.      |        CMVAE       |         1       |    Ensemble Prob. (N = 5)    |       5         |
+|     M3.      |        CMVAE       |        32       |     Deterministic (N = 1)    |       32        |
+|     M4.      |        CMVAE       |        1        |    Ensemble Prob. (N = 1)    |        1        |
+|     M5.      |      CMVAE-MCD     |        32       |    Ensemble Prob. (N = 5)    |      160        | -->
+
+<table
+  data-toggle="table"
+  data-url="{{ 'assets/json/posts/2025-10-25-UQ-BDL-UAV-System/table_models.json' | relative_url }}">
+  <a id="table:nav-models"></a>
+  <thead>
+    <tr>
+      <th data-field="Model">Navigation Model</th>
+      <th data-field="Perception Encoder">Perception Encoder</th>
+      <th data-field="Latent Representation Samples">LRS</th>
+      <th data-field="Control Policy">Control Policy</th>
+      <th data-field="Control Prediction Samples">CPS</th>
+    </tr>
+  </thead>
+</table>
+<div class="caption">
+    Table 1: UAV navigation models.
+</div>
+
+In <a href="#table:nav-models">Table 1</a>, models $\mathcal{M}_1$ to $\mathcal{M}_4$ partially capture uncertainty in the pipeline since they use a deterministic perception component (CMVAE). For the control component, $\mathcal{M}_1$ and $\mathcal{M}_2$ take 32 and 1 LRS, respectively, and use the samples later with an ensemble of 5 probabilistic control policies capturing epistemic and aleatoric uncertainty. $\mathcal{M}_3$ uses 32 LRS, and the control component is completely deterministic. $\mathcal{M}_4$ uses 1 LRS with a probabilistic control policy to capture aleatoric uncertainty.  Finally, $\mathcal{M}_5$ represents our Bayesian navigation pipeline where the perception component captures epistemic uncertainty using MCD with 32 forward passes for each input to get 32 latent representation predictions. To ease the computation, perception predictions are directly used as latent variable samples in downstream control. The control component uses an ensemble of 5 probabilistic control policies, obtaining 160 control prediction samples.
+
 ### Results
 
-Ideally, we would expect the UAV to have a more robust and stable navigation performance by the full uncertainty-aware navigation architecture and by using the expected value of the predicted velocities <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>, at the output of the system or the control component. To see if this premise holds, we compare the navigation performance from different UAV uncertainty-aware navigation architectures.
- 
+
 ## Leveraging System Uncertainty for Better Navigation Performance
 
 ToDo ToDo
