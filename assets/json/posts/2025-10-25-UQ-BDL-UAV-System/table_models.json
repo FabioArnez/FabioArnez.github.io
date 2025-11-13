@@ -26,14 +26,6 @@
   {
     "id": 4,
     "Model": "M 4",
-    "Perception Encoder": "CMVAE",
-    "Latent Representation Samples": 1,
-    "Control Policy": "Probabilistic (N = 1)",
-    "Control Prediction Samples": 1
-  },
-  {
-    "id": 5,
-    "Model": "M 5",
     "Perception Encoder": "CMVAE-MCD",
     "Latent Representation Samples": 32,
     "Control Policy": "Ensemble Prob. (N = 5)",

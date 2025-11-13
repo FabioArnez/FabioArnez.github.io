@@ -279,14 +279,13 @@ $$
 \end{align*}
 $$
 
-
-
 In this regard, with this experimental setup we seek to answer the following research question:
->   *__Can we improve the UAV performance and robustness to perturbations of the environment by using an uncertianty-aware DL-based navigation architecture?__*
+
+> **RQ-1<a id="rq:rq1"></a>**: Can we improve the UAV performance and robustness to perturbations of the environment by using an uncertianty-aware DL-based navigation architecture?
 
 ### Navigation Models Setup
 
-__Navigation Models Trainind Datasets.__ 
+__Navigation Models Trainind Datasets.__ We use two independent datasets for each component in the navigation pipeline. The perception CMVAE uses a dataset ($\mathcal{D}_p$) of 300k images where a gate is visible and gate-pose annotations are available. The control component uses a dataset ($\mathcal{D}_c$) of 17k images with UAV velocity annotations. $\mathcal{D}_c$ is collected by flying the UAV in a circular track with gates, using traditional methods for trajectory planning and control. The perception dataset is divided into 80\% for training and the remaining 20\% for validation and testing. The control dataset uses a split of 90\% for training and the remaining for validation and testing. In both cases, the image size is 64x64 pixels.
 
 __Navigation Models Baselines.__ Ideally, we would expect the UAV to have a more robust and stable navigation performance with a full uncertainty-aware navigation architecture and by using the expected value of the predicted velocities <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>, at the output of the system or the control component. To see if this premise holds, we compare the navigation performance from different UAV uncertainty-aware navigation architectures. The navigation models are listed below in <a href="#table:nav-models">Table 1</a>, showing the uncertainty-aware navigation architectures used in our experiments, and detailing the type of perception component, the number of latent representation samples (LRS), the type of control policy, and the number of control prediction samples (CPS) at the output of the system, as presented below:
 
@@ -316,10 +315,34 @@ __Navigation Models Baselines.__ Ideally, we would expect the UAV to have a more
     Table 1: UAV navigation models.
 </div>
 
-In <a href="#table:nav-models">Table 1</a>, models $\mathcal{M}_1$ to $\mathcal{M}_4$ partially capture uncertainty in the pipeline since they use a deterministic perception component (CMVAE). For the control component, $\mathcal{M}_1$ and $\mathcal{M}_2$ take 32 and 1 LRS, respectively, and use the samples later with an ensemble of 5 probabilistic control policies capturing epistemic and aleatoric uncertainty. $\mathcal{M}_3$ uses 32 LRS, and the control component is completely deterministic. $\mathcal{M}_4$ uses 1 LRS with a probabilistic control policy to capture aleatoric uncertainty.  Finally, $\mathcal{M}_5$ represents our Bayesian navigation pipeline where the perception component captures epistemic uncertainty using MCD with 32 forward passes for each input to get 32 latent representation predictions. To ease the computation, perception predictions are directly used as latent variable samples in downstream control. The control component uses an ensemble of 5 probabilistic control policies, obtaining 160 control prediction samples.
+In <a href="#table:nav-models">Table 1</a>, models $\mathcal{M}_1$ to $\mathcal{M}_3$ partially capture uncertainty in the pipeline since they use a deterministic perception component (CMVAE). For the control component, $\mathcal{M}_1$ and $\mathcal{M}_2$ take 32 and 1 LRS, respectively, and use the samples later with an ensemble of 5 probabilistic control policies capturing epistemic and aleatoric uncertainty. $\mathcal{M}_3$ uses 32 LRS, and the control component is completely deterministic. Finally, $\mathcal{M}_4$ represents our Bayesian navigation pipeline where the perception component captures epistemic uncertainty using MCD with 32 forward passes for each input to get 32 latent representation predictions. To ease the computation, perception predictions are directly used as latent variable samples in downstream control. The control component uses an ensemble of 5 probabilistic control policies, obtaining 160 control prediction samples.
 
 ### Results
 
+In the videos below we observe a qualitative performance comparison of each model in the UAV navigation task.
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0 text-center">
+        {% include video.liquid path="https://www.youtube.com/embed/e9oLOo0JJRg" class="img-fluid rounded z-depth-1" %}
+        <div class="caption">UAV navigation model M1</div>
+    </div>
+    <div class="col-sm mt-3 mt-md-0 text-center">
+        {% include video.liquid path="https://www.youtube.com/embed/vepmyzaIvzE" class="img-fluid rounded z-depth-1" %}
+        <div class="caption">UAV navigation model M2</div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0 text-center">
+        {% include video.liquid path="https://www.youtube.com/embed/m5nH3nARsL0" class="img-fluid rounded z-depth-1" %}
+        <div class="caption">UAV navigation model M3</div>
+    </div>
+    <div class="col-sm mt-3 mt-md-0 text-center">
+        {% include video.liquid path="https://www.youtube.com/embed/j82R279Kbio" class="img-fluid rounded z-depth-1" %}
+        <div class="caption">UAV navigation model M4</div>
+    </div>
+</div>
+
+Based on the results of the experiments, we can answer <a href="#rq:rq1">RQ-1</a> saying that the uncertainty-aware DL-based navigation architecture marginally improves the UAV performance and robustness to perturbations of the environment.
 
 ## Leveraging System Uncertainty for Better Navigation Performance
 
