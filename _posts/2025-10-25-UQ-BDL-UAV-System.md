@@ -1,7 +1,7 @@
 ---
 layout: distill
 title: "Quantifying and Using Uncertainty in Deep Learning-based UAV Navigation"
-date: 2025-10-25
+date: 2025-11-03
 tags: Autonomous Navigation Uncertainty BayesianDeepLearning Systems
 description: "Quantifying and using uncertainty in Bayesian deep learning systems"
 # appendix: true

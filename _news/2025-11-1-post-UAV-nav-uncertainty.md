@@ -17,7 +17,7 @@ published: true
     </div>
 </div>
 
-After long long pause in writing blog content, I wrote a new post about *__"Uncertainty Quantification & Propagation in a DNN-based Navigation System"__*.<br/><br/>
+After a long long pause in writing blog content, I wrote a new post about *__"Uncertainty Quantification & Propagation in a DNN-based Navigation System"__*.<br/><br/>
 
 The post describes how to quantify and propagate uncertainty in a minimalistic UAV/drone DNN-based navigation system (2 neural networks) and shows how to use uncertainty to improve the navigation system's performance inside the AirSim simulation environment.<br/><br/>
 
