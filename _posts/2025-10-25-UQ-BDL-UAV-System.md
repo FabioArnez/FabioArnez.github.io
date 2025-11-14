@@ -186,7 +186,7 @@ After training the components of the minimalistic navigation architecture, we ob
 
 ### Uncertainty From Perception Representations
 
-Although the CMVAE encoder $$$q_{\phi}$$ employs Bayesian inference to obtain latent vectors $$\mathbf{z}$$, CMVAE does not capture epistemic uncertainty since the encoder lacks a distribution over parameters $\phi$. To capture uncertainty in the perception encoder, we follow prior work from <d-cite key="daxberger2019bayesian,jesson2020identifying"></d-cite> that attempts to capture epistemic uncertainty in VAEs. We adapt the CMVAE to capture the posterior $$q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_p)$$ as shown in Equation \eqref{eq:postEncoder}.
+Although the CMVAE encoder $$q_{\phi}$$ employs Bayesian inference to obtain latent vectors $$\mathbf{z}$$, CMVAE does not capture epistemic uncertainty since the encoder lacks a distribution over parameters $\phi$. To capture uncertainty in the perception encoder, we follow prior work from <d-cite key="daxberger2019bayesian,jesson2020identifying"></d-cite> that attempts to capture epistemic uncertainty in VAEs. We adapt the CMVAE to capture the posterior $$q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_p)$$ as shown in Equation \eqref{eq:postEncoder}.
 
 $$
 \begin{equation}
@@ -319,7 +319,23 @@ In <a href="#table:nav-models">Table 1</a>, models $\mathcal{M}_1$ to $\mathcal{
 
 ### Results
 
-In the videos below we observe a qualitative performance comparison of each model in the UAV navigation task.
+<a href="#table:nav-models-performance">Table 2</a>, shows the UAV navigation models performance. Moreover, the videos below we observe a qualitative performance comparison of each model in the UAV navigation task.
+
+<table
+  data-toggle="table"
+  data-url="{{ 'assets/json/posts/2025-10-25-UQ-BDL-UAV-System/table_performance.json' | relative_url }}">
+  <a id="table:nav-models-performance"></a>
+  <thead>
+    <tr>
+      <th data-field="Model" data-halign="center" data-align="center">Navigation Model</th>
+      <th data-field="Noise Level 1" data-halign="center" data-align="center">Gates Passed @ Track Noise Level 1</th>
+      <th data-field="Noise Level 2" data-halign="center" data-align="center">Gates Passed @ Track Noise Level 2</th>
+    </tr>
+  </thead>
+</table>
+<div class="caption">
+    Table 2: UAV navigation models performance.
+</div>
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0 text-center">
@@ -342,11 +358,17 @@ In the videos below we observe a qualitative performance comparison of each mode
     </div>
 </div>
 
-Based on the results of the experiments, we can answer <a href="#rq:rq1">RQ-1</a> saying that the uncertainty-aware DL-based navigation architecture marginally improves the UAV performance and robustness to perturbations of the environment.
+Based on the results of the experiments, we can answer <a href="#rq:rq1">RQ-1</a> saying that the uncertainty-aware DL-based navigation architecture marginally improves the UAV performance and robustness to perturbations of the environment. But the surprising point here is that the performance from the full Bayesian navigation architecture $\mathcal{M}_4$ is slightly better than partial uncertianty-aware archictecture $\mathcal{M}_2$. This situation allow us to question the benefit of the full Bayesian navigation architecture, and more precisely, the tradeoff between performance & robustness benefit vs. the required computational resources, since the simple partial uncertainty-aware $\mathcal{M}_2$ provides similar performance.
+
+<!-- Naturally, the next question is: **What is the reason for this suboptimal behavior in the full uncertainty-aware (Bayesian) architecture $\mathcal{M}_4$?** -->
+Naturally, based on these observations, our next question is:
+> **RQ-2<a id="rq:rq2"></a>**: What is the reason for this behavior and performance in the full uncertainty-aware (Bayesian) architecture $\mathcal{M}_4$ compared to other partial uncertainty-aware navigation architectures?
 
 ## Leveraging System Uncertainty for Better Navigation Performance
 
-ToDo ToDo
+### Understanding the System Components' Predictive Uncertainty
+
+To try to understand what is going on during the UAV autonomous mission/task execution, lets probe the predictions of each component of the fully Bayesian navigation architecture, when facing one of the situations that arises when adding noise to the tracks as shown in <a href="#fig:track-with-noise">Figure 9</a>.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -354,9 +376,11 @@ ToDo ToDo
     </div>
 </div>
 
-## Conclusion
 
 For more in depth info about this topic, please check the papers <d-cite key="arnez2021improving,arnez2022towards,arnez2022quantifying"></d-cite>. This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>.
+
+## Conclusion
+TBD
 
 <!-- The citation is presented inline like this: <d-cite key="gregor2015draw"></d-cite> (a number that displays more information on hover).
 If you have an appendix, a bibliography is automatically created and populated in it. -->

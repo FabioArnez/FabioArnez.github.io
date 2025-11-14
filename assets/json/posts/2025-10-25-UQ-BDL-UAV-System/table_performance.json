@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "Model": "M 1",
+    "Noise Level 1": 17.67,
+    "Noise Level 2": 6.0
+  },
+  {
+    "id": 2,
+    "Model": "M 2",
+    "Noise Level 1": 17.33,
+    "Noise Level 2": 4.0
+  },
+  {
+    "id": 3,
+    "Model": "M 3",
+    "Noise Level 1": 8.33,
+    "Noise Level 2": 5.0
+  },
+  {
+    "id": 4,
+    "Model": "M 4",
+    "Noise Level 1": 19.77,
+    "Noise Level 2": 9.22
+  }
+]

@@ -4,7 +4,7 @@ title: post Unertainty Quantification & Propagation in a DNN-based UAV Navigatio
 date: 2025-11-03 10:18:00-0000
 inline: true
 related_posts: true
-published: false
+published: true
 ---
 
 #### New Blog Post: Uncetainty Quantification & Propagation in a DNN-based Navigation System
