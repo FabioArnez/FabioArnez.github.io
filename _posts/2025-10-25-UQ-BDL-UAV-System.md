@@ -372,15 +372,26 @@ To try to understand what is going on during the UAV autonomous mission/task exe
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-nav-task.png" class="img-fluid rounded z-depth-1" zoomable=true caption="Figure 3: UAV task"%}
+        <!-- <a id="fig:track-with-noise"></a> -->
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/m4_ensemble_mem_pred_lateral_mean.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/m4_ensemble_mem_pred_angular_mean.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-nav-task.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 
 
-For more in depth info about this topic, please check the papers <d-cite key="arnez2021improving,arnez2022towards,arnez2022quantifying"></d-cite>. This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>.
+
+<!-- This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>. -->
 
 ## Conclusion
+
 TBD
+
+For more in depth info about this topic, please check the papers <d-cite key="arnez2021improving,arnez2022towards,arnez2022quantifying"></d-cite>. 
 
 <!-- The citation is presented inline like this: <d-cite key="gregor2015draw"></d-cite> (a number that displays more information on hover).
 If you have an appendix, a bibliography is automatically created and populated in it. -->
