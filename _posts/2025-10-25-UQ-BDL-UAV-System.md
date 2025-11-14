@@ -28,6 +28,8 @@ toc:
       - name: Handling Input Uncertainty In The Control Policy
   - name : Navigation Performance Evaluation
   - name : Leveraging System Uncertainty for Better Navigation Performance
+    subsections:
+      - name: Understanding the System Components' Predictive Uncertainty
   - name: Conclusion
 
 _styles: >
@@ -368,22 +370,36 @@ Naturally, based on these observations, our next question is:
 
 ### Understanding the System Components' Predictive Uncertainty
 
-To try to understand what is going on during the UAV autonomous mission/task execution, lets probe the predictions of each component of the fully Bayesian navigation architecture, when facing one of the situations that arises when adding noise to the tracks as shown in <a href="#fig:track-with-noise">Figure 9</a>.
+To try to understand what is going on during the UAV autonomous mission/task execution, lets probe the predictions of each component of the fully Bayesian navigation architecture, when facing one of the situations that arises when adding noise to the tracks as shown in <a href="#fig:track-with-noise">Figure 8</a>.
+In particular, consider the double-gate case of <a href="#fig:track-with-noise">Figure 9</a> and its generated predictions in <a href="#fig:double-gate-preds-vy-vyaw">Figure 10</a> below:
 
 <div class="row mt-3">
+<a id="fig:double-gate-situation"></a>
     <div class="col-sm mt-3 mt-md-0">
-        <!-- <a id="fig:track-with-noise"></a> -->
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-nav-task.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/double-gate-situation.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Figure 9: Double gate situation in the UAV field-of-view caused by noisy circular tracks (left). UAV field-of-view and the corresponding input image for the DNN when double-gate situation (right).
+</div>
+
+<div class="row mt-3">
+<a id="fig:double-gate-preds-vy-vyaw"></a>
+    <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/m4_ensemble_mem_pred_lateral_mean.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/m4_ensemble_mem_pred_angular_mean.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/posts/2025-10-25-UQ-BDL-UAV-System/UAV-nav-task.png" class="img-fluid rounded z-depth-1" zoomable=true %}
-    </div>
+</div>
+<div class="caption">
+    Figure 10: Predicted (mean $\hat{\mu})$ lateral velocity $\dot{y}$ and yaw angular velocity $\dot{\psi}$, for each control component ensemble member $\pi$.
 </div>
 
-
+This controlled experiment reveals that the introduced ambiguity (two gates) in the input image for the UAV DNN-based navigation architecture, is also reflected in the predicted control actions.In particular, te the predicted control commands that will likely drive the UAV towards one of the two gates, i.e., $\hat{\dot{y}}$ (left or right) and $\hat{\dot{\psi}}$ (yaw rotation cw and ccw, present **multimodal distributions** fo reach ensemble member in the control component. This siutation suggest the posibility of two likely values for the control command, which is a clear indication of the uncertainty in the control command.
 
 <!-- This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>. -->
 
