@@ -3,7 +3,7 @@ layout: distill
 title: "Quantifying and Using Uncertainty in Deep Learning-based UAV Navigation"
 date: 2025-11-03
 tags: Autonomous Navigation Uncertainty BayesianDeepLearning Systems
-description: "Quantifying and using uncertainty in Bayesian deep learning systems"
+description: "Quantifying and using uncertainty in Bayesian deep learning systems for robust UAV navigation"
 # appendix: true
 citation: true
 tikzjax: true
@@ -371,7 +371,7 @@ Naturally, based on these observations, our next question is:
 ### Understanding the System Components' Predictive Uncertainty
 
 To try to understand what is going on during the UAV autonomous mission/task execution, lets probe the predictions of each component of the fully Bayesian navigation architecture, when facing one of the situations that arises when adding noise to the tracks as shown in <a href="#fig:track-with-noise">Figure 8</a>.
-In particular, consider the double-gate case of <a href="#fig:track-with-noise">Figure 9</a> and its generated predictions in <a href="#fig:double-gate-preds-vy-vyaw">Figure 10</a> below:
+In particular, consider the double-gate case from <a href="#fig:track-with-noise">Figure 9</a> and its generated predictions in <a href="#fig:double-gate-preds-vy-vyaw">Figure 10</a> below:
 
 <div class="row mt-3">
 <a id="fig:double-gate-situation"></a>
@@ -399,7 +399,7 @@ In particular, consider the double-gate case of <a href="#fig:track-with-noise">
     Figure 10: Predicted (mean $\hat{\mu})$ lateral velocity $\dot{y}$ and yaw angular velocity $\dot{\psi}$, for each control component ensemble member $\pi$.
 </div>
 
-This controlled experiment reveals that the introduced ambiguity (two gates) in the input image for the UAV DNN-based navigation architecture, is also reflected in the predicted control actions.In particular, te the predicted control commands that will likely drive the UAV towards one of the two gates, i.e., $\hat{\dot{y}}$ (left or right) and $\hat{\dot{\psi}}$ (yaw rotation cw and ccw, present **multimodal distributions** fo reach ensemble member in the control component. This siutation suggest the posibility of two likely values for the control command, which is a clear indication of the uncertainty in the control command.
+This controlled experiment reveals that the introduced ambiguity (two gates) in the input image for the UAV DNN-based navigation architecture, is also reflected in the predicted control actions. The predicted control commands that will move the UAV towards one of the two gates, i.e., $\hat{\dot{y}}$ (lateral vel. left or right) and $\hat{\dot{\psi}}$ (yaw rotation cw and ccw), present **multimodal distributions** fo reach ensemble member in the control component. This situation suggest the posibility of two likely values for the control command, which is a clear indication of the uncertainty in the control command.
 
 <!-- This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>. -->
 
