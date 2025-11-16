@@ -62,7 +62,7 @@ ninja.data = [{
         
           title: "Quantifying and Using Uncertainty in Deep Learning-based UAV Navigation",
         
-        description: "Quantifying and using uncertainty in Bayesian deep learning systems",
+        description: "Quantifying and using uncertainty in Bayesian deep learning systems for robust UAV navigation",
         section: "Posts",
         handler: () => {
           
