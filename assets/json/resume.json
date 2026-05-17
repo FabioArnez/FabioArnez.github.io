@@ -144,7 +144,7 @@
       "summary": "This paper shows that the current evaluation protocol for OOD-OD violates the assumption of non-overlapping objects with respect to the In-Distribution (ID) datasets, and obscures crucial situations such as ignoring unknown objects, potentially leading to overconfidence in deployment scenarios where truly novel objects might be encountered. To address these limitations, we manually curate, and enrich the existing benchmark by exploiting semantic similarity to create new evaluation splits categorized as near, far, and farther from ID distributions. Additionally, we incorporate established metrics from the Open Set community, providing deeper insights into how effectively methods detect unknowns, when they ignore them, and when they mistakenly classify OOD objects as ID. Our comprehensive evaluation demonstrates that semantically and visually close OOD objects are easier to localize than far ones, but are also more easily confounded with ID objects. Far and farther objects are harder to localize but less prone to be taken for an ID object."
     },
     {
-      "name": "Can Less Precise Be More Reliable? A Systematic Evaluation of Quantization's Impact on CLIP Beyond Accuracy",
+      "name": "Less Precise Can Be More Reliable: A Systematic Evaluation of Quantization's Impact on CLIP Beyond Accuracy",
       "publisher": "ArXiV",
       "releaseDate": "2025-09",
       "url": "https://arxiv.org/abs/2509.21173",
