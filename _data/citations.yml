@@ -1,5 +1,5 @@
 metadata:
-  last_updated: '2026-05-29'
+  last_updated: '2026-06-15'
 papers:
   faWEPTIAAAAJ:1sJd4Hv_s6UC:
     citations: 7
@@ -14,7 +14,7 @@ papers:
     title: 'The Map of Misbelief: Tracing Intrinsic and Extrinsic Hallucinations Through Attention Patterns'
     year: '2025'
   faWEPTIAAAAJ:9vf0nzSNQJEC:
-    citations: 2
+    citations: 1
     title: "Less Precise Can Be More Reliable: A Systematic Evaluation of Quantization\u2019s Impact on VLMs Beyond Accuracy"
     year: '2025'
   faWEPTIAAAAJ:KxtntwgDAa4C:
@@ -70,7 +70,7 @@ papers:
     title: Out-of-Distribution Detection Using Deep Neural Network Latent Space Uncertainty.
     year: '2023'
   faWEPTIAAAAJ:uWQEDVKXjbEC:
-    citations: 4
+    citations: 5
     title: Towards an ontological methodology for dynamic dependability management of unmanned aerial vehicles
     year: '2023'
   faWEPTIAAAAJ:vV6vV6tmYwMC:
