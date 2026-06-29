@@ -1,8 +1,8 @@
 metadata:
-  last_updated: '2026-06-15'
+  last_updated: '2026-06-29'
 papers:
   faWEPTIAAAAJ:1sJd4Hv_s6UC:
-    citations: 7
+    citations: 8
     title: Towards dependable autonomous systems based on bayesian deep learning components
     year: '2022'
   faWEPTIAAAAJ:4OULZ7Gr8RgC:
@@ -23,8 +23,8 @@ papers:
     year: '2014'
   faWEPTIAAAAJ:LjlpjdlvIbIC:
     citations: 0
-    title: "VIRMS: UN SISTEMA DE INFORMACI\xD3N VEHICULAR Y MONITOREO DE CARRETERAS"
-    year: '2014'
+    title: "VIRMS: A VEHICLE INFORMATION AND ROAD MONITORING SYSTEM VIRMS: UN SISTEMA DE INFORMACI\xD3N VEHICULAR Y MONITOREO DE CARRETERAS"
+    year: Unknown Year
   faWEPTIAAAAJ:N5tVd3kTz84C:
     citations: 0
     title: Oracle-Guided Soft Shielding for Safe Move Prediction in Chess
