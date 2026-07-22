@@ -1,10 +1,14 @@
 metadata:
-  last_updated: '2026-07-15'
+  last_updated: '2026-07-22'
 papers:
   faWEPTIAAAAJ:1sJd4Hv_s6UC:
     citations: 8
     title: Towards dependable autonomous systems based on bayesian deep learning components
     year: '2022'
+  faWEPTIAAAAJ:1yQoGdGgb4wC:
+    citations: 0
+    title: 'The SIGReg Objective as Variational Free Energy: A Theoretical Active-Inference Account of JEPA World Models'
+    year: '2026'
   faWEPTIAAAAJ:4OULZ7Gr8RgC:
     citations: 0
     title: Deep Neural Network Uncertainty Estimation with Stochastic Inputs for Robust Aerial Navigation Policies
