@@ -1,12 +1,12 @@
 metadata:
-  last_updated: '2026-07-22'
+  last_updated: '2026-08-07'
 papers:
   faWEPTIAAAAJ:1sJd4Hv_s6UC:
-    citations: 8
+    citations: 9
     title: Towards dependable autonomous systems based on bayesian deep learning components
     year: '2022'
   faWEPTIAAAAJ:1yQoGdGgb4wC:
-    citations: 0
+    citations: 1
     title: 'The SIGReg Objective as Variational Free Energy: A Theoretical Active-Inference Account of JEPA World Models'
     year: '2026'
   faWEPTIAAAAJ:4OULZ7Gr8RgC:
@@ -15,7 +15,7 @@ papers:
     year: Unknown Year
   faWEPTIAAAAJ:5awf1xo2G04C:
     citations: 1
-    title: 'The Map of Misbelief: Tracing Intrinsic and Extrinsic Hallucinations Through Attention Patterns'
+    title: 'The map of misbelief: tracing intrinsic and extrinsic hallucinations through attention patterns'
     year: '2025'
   faWEPTIAAAAJ:9vf0nzSNQJEC:
     citations: 2
@@ -25,10 +25,6 @@ papers:
     citations: 2
     title: Design Considerations of an Unmanned Aerial Vehicle for Aerial Filming
     year: '2014'
-  faWEPTIAAAAJ:LjlpjdlvIbIC:
-    citations: 0
-    title: "VIRMS: A VEHICLE INFORMATION AND ROAD MONITORING SYSTEM VIRMS: UN SISTEMA DE INFORMACI\xD3N VEHICULAR Y MONITOREO DE CARRETERAS"
-    year: Unknown Year
   faWEPTIAAAAJ:N5tVd3kTz84C:
     citations: 0
     title: Oracle-Guided Soft Shielding for Safe Move Prediction in Chess
@@ -42,7 +38,7 @@ papers:
     title: 'FindMeIfYouCan: Bringing Open Set metrics to ,  and  Out-of-Distribution Object Detection'
     year: '2025'
   faWEPTIAAAAJ:Tyk-4Ss8FVUC:
-    citations: 10
+    citations: 8
     title: 'SRESLi: Smart renewable energy street lighting system'
     year: '2019'
   faWEPTIAAAAJ:ZuybSZzF8UAC:
@@ -57,8 +53,12 @@ papers:
     citations: 5
     title: Latent representation entropy density for distribution shift detection
     year: '2024'
+  faWEPTIAAAAJ:hkOj_22Ku90C:
+    citations: 0
+    title: 'FedSALAT: Adaptive Buffer-Based Active Learning for Federated Data Streams'
+    year: '2026'
   faWEPTIAAAAJ:q3oQSFYPqjQC:
-    citations: 1
+    citations: 2
     title: Deep neural network uncertainty runtime monitoring for robust and safe AI-based automated navigation
     year: '2023'
   faWEPTIAAAAJ:qjMakFHDy7sC:
@@ -78,7 +78,7 @@ papers:
     title: Towards an ontological methodology for dynamic dependability management of unmanned aerial vehicles
     year: '2023'
   faWEPTIAAAAJ:vV6vV6tmYwMC:
-    citations: 9
+    citations: 10
     title: Improving robustness of deep neural networks for aerial navigation by incorporating input uncertainty
     year: '2021'
   faWEPTIAAAAJ:ye4kPcJQO24C:
