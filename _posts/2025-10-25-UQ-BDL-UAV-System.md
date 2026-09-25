@@ -62,7 +62,7 @@ _styles: >
 Autonomous systems, like Unmanned Aerial Vehicles (UAVs) and self-driving cars, increasingly rely on Deep Neural Networks (DNNs) to handle critical functions within their navigation pipelines (perception, planning, and control). While DNNs are powerful, deploying them in safety-critical roles demands that they accurately express their confidence in predictions. This is where Bayesian Deep Learning (BDL) <d-cite key="gal2016dropout,lakshminarayanan2017simple"></d-cite> comes in, offering a principled framework to model and capture uncertainty.
 However, if the Bayesian approach is followed, ideally all the components in the navigation pipeline (perception, planning, control) should use BDL to enable uncertainty propagation, so that the output of the system reflects the uncertainty of the system as a whole <d-cite key="mcallister2017concrete"></d-cite>. Uncertainty propagation is challenging, as it requires BDL components to admit uncertainty information as an input, to account for the uncertainty coming from the preceding components.
 
-In this post, we describe how to capture, propagate, and use uncertainty along a navigation pipeline of BDL components, summarizing our work in <d-cite key="arnez2022towards,arnez2022quantifying,arnez2023navigation"></d-cite>. We assess how uncertainty quantification throughout the system impacts the navigation performance of a UAV that must fly autonomously through a set of gates disposed in a circle within a simulated environment (AirSim). The post is organized around three research questions: whether capturing uncertainty along the whole pipeline improves the navigation performance and robustness (<a href="#rq:rq1">RQ-1</a>), what limits the gains of the fully Bayesian pipeline (<a href="#rq:rq2">RQ-2</a>), and whether the system's own uncertainty can be used at runtime to make better control decisions (<a href="#rq:rq3">RQ-3</a>).
+In this post, we describe how to capture, propagate, and use uncertainty along a navigation pipeline of BDL components, summarizing our work in <d-cite key="arnez2022towards,arnez2022quantifying,arnez2023navigation"></d-cite>. We assess how uncertainty quantification throughout the system impacts the navigation performance of a UAV that must fly autonomously through a set of gates disposed in a circle within a simulated environment (AirSim). The post is organized around three research questions: whether capturing uncertainty along the whole pipeline improves the navigation performance and robustness (<a href="#rq:rq1">RQ-1</a>); how this uncertainty shows up in the predictions of the fully Bayesian pipeline in challenging situations, and what limits its gains (<a href="#rq:rq2">RQ-2</a>); and whether the system's own uncertainty can be used at runtime to make better control decisions (<a href="#rq:rq3">RQ-3</a>).
 
 ## The Navigation Task and Architecture Overview
 
@@ -201,11 +201,11 @@ Although the CMVAE encoder $$q_{\phi}$$ employs Bayesian inference to obtain lat
 $$
 \begin{equation}
 \label{eq:postEncoder}
-q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p}) = \int{q(\mathbf{z} \mid \mathbf{x}, \phi) \; p(\Phi \mid \mathcal{D}_{p}) \; d\phi}
+q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p}) = \int{q(\mathbf{z} \mid \mathbf{x}, \phi) \; p(\phi \mid \mathcal{D}_{p}) \; d\phi}
 \end{equation}
 $$
 
-To approximate Equation \eqref{eq:postEncoder}, we take a set $${\Phi = \{\phi_{m}\}^{M}_{m}}$$ of encoder parameter samples $$\phi_{m} \sim p(\Phi \mid \mathcal{D}_{p})$$, to obtain a set of latent samples $$\{z_{m}\}^{M}_{m=1}$$ from the output of the encoder $$q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p})$$. In practice, we modify the CMVAE by adding a dropout layer in the encoder. Then, we use Monte Carlo Dropout (MCD) <d-cite key="gal2016dropout"></d-cite> to approximate the posterior on the encoder weights $$p(\Phi \mid \mathcal{D}_{p})$$, as shown for the perception component in <a href="#fig:uncertainty-nav-arch">Figure 7</a>. Finally, for a given input image $$\mathbf{x}$$, we perform $$M$$ stochastic forward passes (with dropout turned on) to compute a set of $$M$$ latent vector samples $$\mathbf{z}$$ at runtime.
+To approximate Equation \eqref{eq:postEncoder}, we take a set $${\Phi = \{\phi_{m}\}^{M}_{m=1}}$$ of encoder parameter samples $$\phi_{m} \sim p(\phi \mid \mathcal{D}_{p})$$, to obtain a set of latent samples $$\{z_{m}\}^{M}_{m=1}$$ from the output of the encoder $$q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p})$$. In practice, we modify the CMVAE by adding a dropout layer in the encoder. Then, we use Monte Carlo Dropout (MCD) <d-cite key="gal2016dropout"></d-cite> to approximate the posterior on the encoder weights $$p(\phi \mid \mathcal{D}_{p})$$, as shown for the perception component in <a href="#fig:uncertainty-nav-arch">Figure 7</a>. Finally, for a given input image $$\mathbf{x}$$, we perform $$M$$ stochastic forward passes (with dropout turned on) to compute a set of $$M$$ latent vector samples $$\mathbf{z}$$ at runtime.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -234,7 +234,7 @@ $$
 $$
 \begin{multline}
 \label{eq:post_pred_dist_whole_system}
-p(\Upsilon^{*} \mid \mathbf{x}^{*}, \mathcal{D}_{c},\mathcal{D}_{p}) = \\\int \int \int  \underbrace{\pi(\Upsilon^{*} \mid \mathbf{z}, \mathbf{w})}_\textit{control policy} \; p(\mathbf{w} \mid \mathcal{D}_{c}) \underbrace{q(\mathbf{z} \mid \mathbf{x}^{*}, \Phi)}_{\textit{perception encoder}} p(\Phi \mid \mathcal{D}_{p})\; d\phi \; dz \; dw
+p(\Upsilon^{*} \mid \mathbf{x}^{*}, \mathcal{D}_{c},\mathcal{D}_{p}) = \\\int \int \int  \underbrace{\pi(\Upsilon^{*} \mid \mathbf{z}, \mathbf{w})}_\textit{control policy} \; p(\mathbf{w} \mid \mathcal{D}_{c}) \underbrace{q(\mathbf{z} \mid \mathbf{x}^{*}, \phi)}_{\textit{perception encoder}} p(\phi \mid \mathcal{D}_{p})\; d\phi \; dz \; dw
 \end{multline}
 $$
 
@@ -244,13 +244,13 @@ The integral over the latent representations $$\mathbf{z}$$ is approximated by t
 
 From the control policy perspective, using multiple latent samples $$\mathbf{z}$$ can be seen as taking a better "picture" of the latent space (perception representation) to gather more information about the environment. Interestingly, we can also make a connection between our sampling approach and the works <d-cite key="tai2019visual,zhang2022memo"></d-cite> that sample the input space by performing translations and augmentations on input images to improve prediction robustness.
 
-Finally, to control the UAV, we use the deep ensemble expected value of the predicted velocities, as suggested in the literature <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>. This means that we use $$\mathbf{\hat{y}}_{\mu} = \mathbb{E}([\mu_{\dot{x}}, \mu_{\dot{y}}, \mu_{\dot{z}}, \mu_{\dot{\psi}}])$$. These predicted velocities represent the desired (reference) velocities that are passed to AirSim's low-level control through its API. As we will see later, this seemingly innocuous choice turns out to be critical.
+Finally, to control the UAV, we use the deep ensemble expected value of the predicted velocities, as suggested in the literature <d-cite key="lakshminarayanan2017simple,lee2019ensemble,nozarian2020uncertainty"></d-cite>. This means that we use $$\hat{\Upsilon}_{\mu} = \frac{1}{NM}\sum_{n=1}^{N}\sum_{m=1}^{M} \hat{\mu}_{w_{n}}(\mathbf{z}_{m})$$, i.e., the average of the predicted means $$\hat{\mu} = [\hat{\mu}_{\dot{x}}, \hat{\mu}_{\dot{y}}, \hat{\mu}_{\dot{z}}, \hat{\mu}_{\dot{\psi}}]$$ over all ensemble members and latent samples. These predicted velocities represent the desired (reference) velocities that are passed to AirSim's low-level control through its API. As we will see later, this seemingly innocuous choice turns out to be critical.
 
 ## Navigation Performance Evaluation
 
 The goal of the UAV is to navigate through a set of gates with unknown locations, forming a circular track. In AirSim, a track is entirely defined by a set of gates, their poses in the space, and the agent navigation direction. For perception-based navigation, the complexity of a track resides in the _"gate-visibility"_ difficulty <d-cite key="madaan2020airsim,song2021autonomous"></d-cite>, i.e., how well the UAV camera Field-of-View (FoV) captures the target gate.
 
-We evaluate the navigation system using a circular track with eight equally spaced gates positioned initially at a radius of 8 m and constant height, as shown in <a href="#fig:track-without-noise">Figure 8</a>. A natural way to increase track complexity is by adding a random displacement to the position of each gate in the track, i.e., introducing operational domain shift (a factor that influences model predictive uncertainty). A track without random displacement in the gates has a circular fashion. Gate position randomness alters the shape of the track, affecting the gate visibility, as presented in <a href="#fig:track-with-noise">Figure 9</a>, and therefore, shifted images are more likely to be generated, e.g., gates are _"not visible, partially visible, or multiple gates"_ can be captured in the UAV FoV.
+We evaluate the navigation system using a circular track with eight equally spaced gates positioned initially at a radius of 8 m and constant height, as shown in <a href="#fig:track-without-noise">Figure 8</a>. A natural way to increase track complexity is by adding a random displacement to the position of each gate in the track, i.e., introducing operational domain shift (a factor that influences model predictive uncertainty). A track without random displacement in the gates has a circular shape. Gate position randomness alters the shape of the track, affecting the gate visibility, as presented in <a href="#fig:track-with-noise">Figure 9</a>, and therefore, shifted images are more likely to be generated, e.g., gates may not be visible or may be only partially visible, or multiple gates may be captured in the UAV FoV.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
@@ -259,7 +259,7 @@ We evaluate the navigation system using a circular track with eight equally spac
     </div>
 </div>
 <div class="caption">
-    Figure 8: UAV navigation circular track without noise. Birds-eye view (left), and the UAV view perspective (right).
+    Figure 8: UAV navigation circular track without noise. Bird's-eye view (left), and the UAV view perspective (right).
 </div>
 
 <div class="row mt-3">
@@ -269,7 +269,7 @@ We evaluate the navigation system using a circular track with eight equally spac
     </div>
 </div>
 <div class="caption">
-    Figure 9: UAV navigation circular track with noise. Birds-eye view (left), and the UAV view perspective (right).
+    Figure 9: UAV navigation circular track with noise. Bird's-eye view (left), and the UAV view perspective (right).
 </div>
 
 To assess the system performance and robustness to perturbations in the environment, we generate new tracks by adding an offset with random noise to each gate radius and height. We specify the Gate Radius Noise (GRN) and the Gate Height Noise (GHN) with two levels of track noise, as follows:
@@ -289,7 +289,7 @@ $$
 \end{align*}
 $$
 
-We measure the system performance by the average number of gates passed in six different noisy tracks for each noise level, where each navigation model has two trials on each track. A UAV mission considers a maximum of 32 gates, which is equivalent to 4 laps (8 gates/lap).
+We measure the system performance by the average number of gates passed in six different noisy tracks, where each navigation model has two trials on each track. A UAV mission considers a maximum of 32 gates, which is equivalent to 4 laps (8 gates/lap).
 
 With this experimental setup, we seek to answer the following research question:
 
@@ -327,7 +327,7 @@ __Navigation Models Baselines.__ Ideally, we would expect a fully uncertainty-aw
     Table 1: UAV navigation models.
 </div>
 
-In <a href="#table:nav-models">Table 1</a>, models $$\mathcal{M}_1$$ to $$\mathcal{M}_3$$ partially capture uncertainty in the pipeline since they use a deterministic perception component (CMVAE). For the control component, $$\mathcal{M}_1$$ and $$\mathcal{M}_2$$ take 32 and 1 LRS, respectively, and use the samples later with an ensemble of 5 probabilistic control policies capturing epistemic and aleatoric uncertainty. $$\mathcal{M}_3$$ uses 32 LRS, and its control component is completely deterministic. Finally, $$\mathcal{M}_4$$ represents our Bayesian navigation pipeline<d-footnote>In the ICRA 2022 workshop paper and in the PhD thesis, this fully Bayesian navigation pipeline is named M0.</d-footnote>, where the perception component captures epistemic uncertainty using MCD with 32 forward passes for each input to get 32 latent representation predictions. To ease the computation, perception predictions are directly used as latent variable samples in downstream control. The control component uses an ensemble of 5 probabilistic control policies, obtaining 160 control prediction samples. In this first experiment, all models control the UAV with the same decision strategy: the expected value (mean) of their control prediction samples.
+In <a href="#table:nav-models">Table 1</a>, models $$\mathcal{M}_1$$ to $$\mathcal{M}_3$$ partially capture uncertainty in the pipeline since they use a deterministic perception component (CMVAE), i.e., the encoder weights have no distribution and the perception epistemic uncertainty is not captured; their latent representation samples are drawn from the CMVAE encoder output distribution $$\mathbf{z} \sim \mathcal{N}(\mu_{\phi},\sigma^{2}_{\phi})$$, as in our previous work <d-cite key="arnez2021improving"></d-cite>. For the control component, $$\mathcal{M}_1$$ and $$\mathcal{M}_2$$ take 32 and 1 LRS, respectively, and use the samples later with an ensemble of 5 probabilistic control policies capturing epistemic and aleatoric uncertainty. $$\mathcal{M}_3$$ uses 32 LRS, and its control component is completely deterministic. Finally, $$\mathcal{M}_4$$ represents our fully Bayesian navigation pipeline<d-footnote>In the ICRA 2022 workshop paper and in the PhD thesis, this fully Bayesian navigation pipeline is named M0; the model named M4 there (a single probabilistic control policy) is not included in this post.</d-footnote>, where the perception component captures epistemic uncertainty using MCD with 32 forward passes for each input to get 32 latent representation predictions. To ease the computation, perception predictions are directly used as latent variable samples in downstream control. The control component uses an ensemble of 5 probabilistic control policies, obtaining 160 control prediction samples. In this first experiment, all models control the UAV with the same decision strategy: the expected value (mean) of their control prediction samples.
 
 ### Navigation Performance Results
 
@@ -346,7 +346,7 @@ In <a href="#table:nav-models">Table 1</a>, models $$\mathcal{M}_1$$ to $$\mathc
   </thead>
 </table>
 <div class="caption">
-    Table 2: UAV navigation models performance (average number of gates passed, out of 32), using the ensemble expected value of the predicted velocities.
+    Table 2: UAV navigation models performance (average number of gates passed, out of 32), using the expected value (mean) of each model's control prediction samples.
 </div>
 
 <div class="row mt-3">
@@ -370,18 +370,18 @@ In <a href="#table:nav-models">Table 1</a>, models $$\mathcal{M}_1$$ to $$\mathc
     </div>
 </div>
 
-Two observations stand out from <a href="#table:nav-models-performance">Table 2</a>. First, learning to predict uncertainty in the control component helps: at noise level 1, the models with an ensemble of probabilistic control policies ($$\mathcal{M}_1$$, $$\mathcal{M}_2$$, and $$\mathcal{M}_4$$) pass roughly twice as many gates as $$\mathcal{M}_3$$, whose control component is deterministic. Interestingly, at noise level 2, $$\mathcal{M}_3$$ passes more gates than $$\mathcal{M}_2$$ (5.0 vs. 4.0), since sampling 32 latent representations from the noisy perception encoding adds diversity to its control predictions <d-cite key="arnez2023navigation"></d-cite>. Second, the full Bayesian navigation architecture $$\mathcal{M}_4$$ is the best model at both noise levels, but its advantage at noise level 1 is small: 19.77 gates vs. 17.67 for $$\mathcal{M}_1$$ and 17.33 for $$\mathcal{M}_2$$, even though $$\mathcal{M}_4$$ requires 32 stochastic forward passes through the perception encoder and 160 control prediction samples per input image, while $$\mathcal{M}_2$$ requires a single perception forward pass and 5 control predictions. At noise level 2, $$\mathcal{M}_4$$ is clearly the most robust model (9.22 gates vs. at most 6.0 for the other models), yet all models, including $$\mathcal{M}_4$$, pass fewer than a third of the 32 gates.
+Two observations stand out from <a href="#table:nav-models-performance">Table 2</a>. First, learning to predict uncertainty in the control component helps: at noise level 1, the models with an ensemble of probabilistic control policies ($$\mathcal{M}_1$$, $$\mathcal{M}_2$$, and $$\mathcal{M}_4$$) pass roughly twice as many gates as $$\mathcal{M}_3$$, whose control component is deterministic. Interestingly, at noise level 2, $$\mathcal{M}_3$$ passes more gates than $$\mathcal{M}_2$$ (5.0 vs. 4.0), since sampling 32 latent representations from the noisy perception encoding adds diversity to its control predictions <d-cite key="arnez2023navigation"></d-cite>. Second, the fully Bayesian architecture $$\mathcal{M}_4$$ is the best model at both noise levels, but its advantage at noise level 1 is small: 19.77 gates vs. 17.67 for $$\mathcal{M}_1$$ and 17.33 for $$\mathcal{M}_2$$, even though $$\mathcal{M}_4$$ requires 32 stochastic forward passes through the perception encoder and 160 control prediction samples per input image, while $$\mathcal{M}_2$$ requires a single perception forward pass and 5 control predictions. At noise level 2, its lead is larger in relative terms (9.22 gates vs. at most 6.0 for the other models), yet all models, including $$\mathcal{M}_4$$, pass fewer than a third of the 32 gates.
 
-Based on these results, we can answer <a href="#rq:rq1">RQ-1</a> with a qualified yes: capturing and propagating uncertainty along the navigation architecture improves the UAV performance and robustness to perturbations of the environment, and the full Bayesian architecture $$\mathcal{M}_4$$ is the most robust one. However, the gains are modest compared with its computational cost, and the performance of all models collapses under stronger perturbations. This situation leads us to question the benefit of the full Bayesian navigation architecture, and more precisely, whether something prevents it from exploiting the uncertainty it captures. Naturally, our next question is:
+Based on these results, we can answer <a href="#rq:rq1">RQ-1</a> with a qualified yes: capturing and propagating uncertainty along the navigation architecture improves the UAV performance and robustness to perturbations of the environment, and the fully Bayesian architecture $$\mathcal{M}_4$$ is the most robust one. However, the gains are modest compared with its computational cost, and the performance of all models collapses under stronger perturbations. This situation leads us to question the benefit of the fully Bayesian architecture, and more precisely, whether something prevents it from exploiting the uncertainty it captures. Naturally, our next question is:
 
 <!-- Naturally, the next question is: **What is the reason for this suboptimal behavior in the full uncertainty-aware (Bayesian) architecture $\mathcal{M}_4$?** -->
-> **RQ-2<a id="rq:rq2"></a>**: How does the uncertainty propagated along the full uncertainty-aware (Bayesian) architecture $$\mathcal{M}_4$$ manifest in its predictions when the UAV faces a challenging situation, and why does it translate into only modest performance gains?
+> **RQ-2<a id="rq:rq2"></a>**: How does the uncertainty propagated along the fully Bayesian architecture $$\mathcal{M}_4$$ manifest in its predictions when the UAV faces a challenging situation, and why does it translate into only modest performance gains?
 
 ## Leveraging System Uncertainty for Better Navigation Performance
 
 ### Understanding the System Components' Predictive Uncertainty
 
-To understand what is going on during the UAV mission, let's probe the predictions of each component of the full Bayesian navigation architecture $$\mathcal{M}_4$$ when facing one of the situations that arise when adding noise to the tracks, as shown in <a href="#fig:track-with-noise">Figure 9</a>.
+To understand what is going on during the UAV mission, let's probe the control predictions of the fully Bayesian architecture $$\mathcal{M}_4$$ when facing one of the situations that arise when adding noise to the tracks, as shown in <a href="#fig:track-with-noise">Figure 9</a>.
 In particular, consider the double-gate situation from <a href="#fig:double-gate-situation">Figure 10</a>, where two gates are captured in the UAV FoV, and the corresponding predictions of the control component in <a href="#fig:double-gate-preds-vy-vyaw">Figure 11</a>:
 
 <div class="row mt-3">
@@ -410,17 +410,17 @@ In particular, consider the double-gate situation from <a href="#fig:double-gate
     Figure 11: Densities of the predicted means \(\hat{\mu}\) for the lateral velocity \(\dot{y}\) (left) and the yaw angular velocity \(\dot{\psi}\) (right), for each control ensemble member \(\pi\) of \(\mathcal{M}_4\), in the double-gate situation.
 </div>
 
-This controlled experiment reveals that the ambiguity introduced in the input image (two gates) is also reflected in the control actions predicted by the navigation architecture. The predicted control commands that move the UAV towards one of the two gates, i.e., $$\hat{\dot{y}}$$ (lateral velocity, left or right) and $$\hat{\dot{\psi}}$$ (yaw rotation, clockwise or counterclockwise), present **multimodal distributions** for each ensemble member in the control component. These observations suggest that, for the double-gate input image, there are two possible control actions that the UAV can take to navigate through the gates, which is a clear indication of the uncertainty in the predicted control commands.
+This controlled experiment reveals that the ambiguity introduced in the input image (two gates) is also reflected in the control actions predicted by the navigation architecture. The predicted control commands that move the UAV towards one of the two gates, i.e., $$\hat{\dot{y}}$$ (lateral velocity) and $$\hat{\dot{\psi}}$$ (yaw rate), present **multimodal distributions** (two peaks) for most ensemble members in the control component. In this image, both peaks have the same sign; they differ in how much the UAV should move sideways and rotate, i.e., in which of the two gates it should fly towards. These observations suggest that, for the double-gate input image, there are two possible control actions that the UAV can take to navigate through the gates, which is a clear indication of the uncertainty in the predicted control commands.
 
 In the control component, assigning the same weight to each ensemble member can result in a sub-optimal ensemble mixture when facing input samples with some degree of ambiguity (e.g., double gates), since the predictions can be multimodal distributions, as presented in <a href="#fig:double-gate-preds-vy-vyaw">Figure 11</a>.
 In the case of ambiguity in the input image and multimodal distributions in the predicted control actions, we can identify two high-risk scenarios for the control component predictions:
 
-1. **Multimodality within an ensemble member**: the predictions of a single ensemble member are multimodal (e.g., bimodal), i.e., across the latent representation samples, the member predicts a UAV movement to the left and to the right with similar probability.
-2. **Disagreement among ensemble members**: the predictions from one ensemble member attempt to move the UAV to the left, while the predictions from another ensemble member try to move the UAV to the right.
+1. **Multimodality within an ensemble member**: the predictions of a single ensemble member are multimodal (e.g., bimodal), i.e., across the latent representation samples, the member predicts a movement towards the left gate and towards the right gate with similar probability.
+2. **Disagreement among ensemble members**: the predictions from one ensemble member attempt to move the UAV towards the left gate, while the predictions from another ensemble member try to move it towards the right gate.
 
-Simply using the expected value of the predictions, $$\mathbf{\hat{y}}_{\mu} = \mathbb{E}([\hat{\mu}_{\dot{x}}, \hat{\mu}_{\dot{y}}, \hat{\mu}_{\dot{z}}, \hat{\mu}_{\dot{\psi}}])$$, in both scenarios averages the two modes, and the resulting command falls in the low-density valley between them: a velocity command that no ensemble member actually proposes. For the UAV, this translates into a straight movement towards the space between the two gates, with a potentially tragic result (e.g., a crash), or into ignoring the mission task (e.g., not passing through any gate).
+Simply using the expected value of the predictions, $$\hat{\Upsilon}_{\mu}$$, in both scenarios averages the two modes, and the resulting command can fall between them, in a lower-density region that corresponds to neither gate. For the UAV, this can translate into a straight movement towards the space between the two gates, with a potentially tragic result (e.g., a crash), or into ignoring the mission task (e.g., not passing through any gate).
 
-This answers <a href="#rq:rq2">RQ-2</a>: the full Bayesian architecture $$\mathcal{M}_4$$ does capture the ambiguity of these challenging situations in its predictive distribution, but the expected-value decision strategy discards this information precisely when it matters the most. This explains the marginal performance improvement of the full uncertainty-aware navigation architecture, and it suggests that the problem is not how uncertainty is captured, but how it is used. Hence, our last question is:
+This answers <a href="#rq:rq2">RQ-2</a>: the fully Bayesian architecture $$\mathcal{M}_4$$ does capture the ambiguity of these challenging situations in its predictive distribution, but the expected-value decision strategy discards this information precisely when it matters the most. This offers a plausible explanation for the modest gains of $$\mathcal{M}_4$$, and suggests that the main bottleneck is less how uncertainty is captured than how it is used, a hypothesis we test next. Hence, our last question is:
 
 > **RQ-3<a id="rq:rq3"></a>**: Can we use the predictive uncertainty of the navigation system at runtime to make better control decisions, and improve the UAV navigation performance and robustness to perturbations of the environment?
 
@@ -428,12 +428,12 @@ This answers <a href="#rq:rq2">RQ-2</a>: the full Bayesian architecture $$\mathc
 
 To use the predictions of $$\mathcal{M}_4$$ better, a control decision-making strategy should address both high-risk scenarios above: it should pick a trustworthy source of predictions instead of weighting all ensemble members equally (scenario 2), and it should commit to one of the modes of the predictive distribution instead of averaging them (scenario 1). Our uncertainty-aware control strategy follows these two steps <d-cite key="arnez2022quantifying,arnez2023navigation"></d-cite>.
 
-__Step 1: Choose the ensemble member with the lowest mutual information.__ We take inspiration from active learning for BDL, where Gal et al. <d-cite key="gal2017deep"></d-cite> and Kirsch et al. <d-cite key="kirsch2019batchbald"></d-cite> build an acquisition function using the mutual information between the model predictions for a given input sample and the model parameters. Intuitively, the acquisition function searches for the samples with the highest mutual information to retrain or update the model. Instead, in our approach, given the latent representation samples from the perception component, we choose at runtime the predictions (the density) of the ensemble member that **minimizes** the mutual information, independently for each velocity command $$\upsilon$$, as presented in Equation \eqref{eq:mi-argmin}:
+__Step 1: Choose the ensemble member with the lowest mutual information.__ We take inspiration from active learning for BDL, where Gal et al. <d-cite key="gal2017deep"></d-cite> and Kirsch et al. <d-cite key="kirsch2019batchbald"></d-cite> build an acquisition function using the mutual information between the model predictions for a given input sample and the model parameters. Intuitively, the acquisition function searches for the samples with the highest mutual information to retrain or update the model. Instead, in our approach, given the latent representation samples from the perception component, we choose at runtime the predictions (the density) of the ensemble member that **minimizes** the mutual information, for each velocity command $$\upsilon$$, as presented in Equation \eqref{eq:mi-argmin}:
 
 $$
 \begin{equation}
 \label{eq:mi-argmin}
-w^{*} = \underset{w}{\arg\min} \; I(\upsilon; \mathbf{z}, w), \quad \forall \upsilon \in \Upsilon = \{\dot{x}, \dot{y}, \dot{z}, \dot{\psi}\}
+w^{*} = \underset{w \in \{w_{1}, \dots, w_{N}\}}{\arg\min} \; I(\upsilon; \mathbf{z}, w), \quad \forall \upsilon \in \Upsilon = \{\dot{x}, \dot{y}, \dot{z}, \dot{\psi}\}
 \end{equation}
 $$
 
@@ -442,27 +442,27 @@ In our navigation architecture, the mutual information $$I$$ is presented in Equ
 $$
 \begin{equation}
 \label{eq:mi-entropy}
-I(\upsilon; \mathbf{z}, w) = H(\upsilon) - \mathbb{E}_{\mathbf{z} \sim q_{\Phi}(\mathbf{z} \mid \mathbf{x})}\big[H(\upsilon \mid \mathbf{z}, w)\big]
+I(\upsilon; \mathbf{z}, w) = H(\upsilon) - \mathbb{E}_{\mathbf{z} \sim q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p})}\big[H(\upsilon \mid \mathbf{z}, w)\big]
 \end{equation}
 $$
 
 $$
 \begin{equation}
 \label{eq:mi-kl}
-I(\upsilon; \mathbf{z}, w) = \int D_{\mathrm{KL}}\big(\pi(\upsilon \mid \mathbf{z}, w) \,\Vert\, \pi(\upsilon)\big) \, p(\mathbf{z}) \, d\mathbf{z}
+I(\upsilon; \mathbf{z}, w) = \int D_{\mathrm{KL}}\big(\pi(\upsilon \mid \mathbf{z}, w) \,\Vert\, \pi(\upsilon)\big) \, q_{\Phi}(\mathbf{z} \mid \mathbf{x}, \mathcal{D}_{p}) \, d\mathbf{z}
 \end{equation}
 $$
 
-To estimate the mutual information from Equation \eqref{eq:mi-kl}, we use the variational lower bound approximation from Poole et al. <d-cite key="poole2019variational"></d-cite>, and assume that both distributions are normal. To this end, we first estimate the intractable marginal $$\pi(\upsilon)$$ with the latent representation samples $$\mathbf{z}_{i}$$ and the ensemble weights $$w_{j}$$, i.e., by passing the samples through each ensemble member, as presented in Equation \eqref{eq:mi-marginal}:
+To estimate the mutual information from Equation \eqref{eq:mi-kl}, we use the variational lower bound approximation from Poole et al. <d-cite key="poole2019variational"></d-cite>, and compute every KL divergence between two normal distributions. To this end, we first estimate the intractable marginal $$\pi(\upsilon)$$ with the latent representation samples $$\mathbf{z}_{i}$$, $$i = 1, \dots, M$$ (indexed by $$i$$ here, since $$m$$ denotes the marginal estimate), and the ensemble weights $$w_{n}$$, i.e., by passing the samples through each ensemble member, as presented in Equation \eqref{eq:mi-marginal}:
 
 $$
 \begin{equation}
 \label{eq:mi-marginal}
-\pi(\upsilon) \approx m(\upsilon; \mathbf{z}_{1:M}, w_{1:N}) = \frac{1}{NM} \sum_{j=1}^{N} \sum_{i=1}^{M} \pi(\upsilon \mid \mathbf{z}_{i}, w_{j})
+\pi(\upsilon) \approx m(\upsilon; \mathbf{z}_{1:M}, w_{1:N}) = \frac{1}{NM} \sum_{n=1}^{N} \sum_{i=1}^{M} \pi(\upsilon \mid \mathbf{z}_{i}, w_{n})
 \end{equation}
 $$
 
-Then, replacing the intractable marginal $$\pi(\upsilon)$$ with $$m(\upsilon)$$ in Equation \eqref{eq:mi-kl}, we obtain the mutual information lower bound in Equation \eqref{eq:mi-lb}. Finally, we use Equation \eqref{eq:mi-select} to choose the predictions of an ensemble member for each velocity command:
+Since this mixture is not normal (in the double-gate situation, it is multimodal), in practice we replace it with the normal distribution that has the same mean and variance, i.e., the ensemble expected value and variance of all $$NM$$ predictions, so that each KL divergence has a closed form. Then, replacing the intractable marginal $$\pi(\upsilon)$$ with $$m(\upsilon)$$ in Equation \eqref{eq:mi-kl}, we obtain the mutual information lower bound estimate in Equation \eqref{eq:mi-lb}<d-footnote>Strictly, this estimate is not guaranteed to bound the mutual information of a single ensemble member. The multi-sample bound of Poole et al. holds when the mixture is built from the same predictive distributions whose mutual information is estimated, whereas our marginal estimate pools the predictions of all ensemble members (and is approximated by a normal distribution). The estimate therefore also grows when a member disagrees with the rest of the ensemble, and we use it as a score to rank the members (see the next subsection).</d-footnote>. Finally, we use Equation \eqref{eq:mi-select} to choose the predictions of an ensemble member for each velocity command:
 
 $$
 \begin{equation}
@@ -474,37 +474,37 @@ $$
 $$
 \begin{equation}
 \label{eq:mi-select}
-w^{*} = \underset{w}{\arg\min} \; \mathbb{E}_{\mathbf{z}_{1:M}}\Big[\frac{1}{M} \sum_{i=1}^{M} D_{\mathrm{KL}}\big(\pi(\upsilon \mid \mathbf{z}_{i}, w) \,\Vert\, m(\upsilon)\big)\Big], \quad \forall \upsilon \in \Upsilon = \{\dot{x}, \dot{y}, \dot{z}, \dot{\psi}\}
+w^{*} = \underset{w \in \{w_{1}, \dots, w_{N}\}}{\arg\min} \; \mathbb{E}_{\mathbf{z}_{1:M}}\Big[\frac{1}{M} \sum_{i=1}^{M} D_{\mathrm{KL}}\big(\pi(\upsilon \mid \mathbf{z}_{i}, w) \,\Vert\, m(\upsilon)\big)\Big], \quad \forall \upsilon \in \Upsilon = \{\dot{x}, \dot{y}, \dot{z}, \dot{\psi}\}
 \end{equation}
 $$
 
-Note that the selection is made independently for each velocity command, so the lateral velocity can come from one ensemble member and the yaw velocity from another.
+In practice, the expectation over $$\mathbf{z}_{1:M}$$ is replaced by the single set of $$M$$ latent samples drawn for the current image.
 
-__Step 2: Decide how to act on the chosen predictions.__ Once an ensemble member is chosen, the UAV could act on its predictions by taking the expected value, by checking the empirical predictive distribution for the existence of modes, or by taking one specific prediction, e.g., the minimum or maximum predicted velocity. In our strategy, we use a different rule for each velocity command:
+__Step 2: Decide how to act on the chosen predictions.__ Once an ensemble member is chosen, the UAV could act on its predictions by taking the expected value, by checking the empirical predictive distribution for the existence of modes, or by taking one specific prediction, e.g., the minimum or maximum predicted velocity. In our strategy, we look at the $$M$$ predicted means of the chosen member (one per latent sample, as in <a href="#fig:double-gate-preds-vy-vyaw">Figure 11</a>), and we use a different rule for each velocity command:
 
-- **Forward velocity $$\dot{x}$$**: we choose a conservative behavior by selecting the lowest predicted velocity (the *MinVelX* variant). As an alternative, the *Mode* variant uses the mode of the predicted forward velocities instead.
-- **Lateral and yaw velocities $$\dot{y}$$ and $$\dot{\psi}$$**: we check for the modes of the predicted distribution. If multiple modes exist, we choose the left-most mode, i.e., the UAV has a preference to move to the left and rotate counterclockwise.
+- **Forward velocity $$\dot{x}$$**: we choose a conservative behavior by selecting the lowest predicted forward velocity (the *MinVelX* variant). The *modal forward velocity* variant (*Mode*) uses instead a mode of the predicted forward velocities (the lowest one, if several modes exist).
+- **Lateral and yaw velocities $$\dot{y}$$ and $$\dot{\psi}$$**: we check for the modes of the empirical distribution (a kernel density estimate) of the predicted velocities. If multiple modes exist, we choose the left-most (lowest-valued) mode, i.e., among the candidate modes, the UAV prefers the one that moves it further to the left and rotates it more counterclockwise.
 - **Vertical velocity $$\dot{z}$$**: if multiple modes exist, we choose the lowest velocity mode, so that the UAV has a soft vertical movement when facing ambiguity in the predictions.
 
-These rules can be seen as decisions coming from a higher-level decision-making component. We refer to this strategy as **MI-Mode** (in the videos below, MILB stands for Mutual Information Lower Bound).
+These rules can be seen as decisions coming from a higher-level decision-making component. We refer to the overall strategy as **MI-Mode**, since it uses the mutual information to choose the ensemble member and the modes of its predictions to act (in the videos below, MILB stands for Mutual Information Lower Bound).
 
 ### Why Does This Work?
 
 The MI-Mode strategy uses exactly the same model, predictions, and uncertainty estimates as the expected-value strategy; only the decision rule changes. Here is the intuition behind each ingredient:
 
-__A mean is not a safe summary of a multimodal prediction.__ When the predictive distribution has two peaks, one for each gate, its mean falls in the valley between them: a low-density action that none of the ensemble members proposes, and that the demonstrations in the control dataset $$\mathcal{D}_c$$ never showed. A mode, instead, corresponds to a coherent hypothesis about the scene (e.g., "fly through the left gate"), so acting on a mode keeps the UAV on a trajectory similar to those the control policy was trained to imitate. Committing to one of the two gates is better than committing to neither of them.
+__A mean is not a safe summary of a multimodal prediction.__ As we saw above, averaging the two modes can produce a command between them, in a region that corresponds to neither gate. A mode, instead, corresponds to a coherent hypothesis about the scene (e.g., "fly through the left gate"): a command that the control policy actually predicts with high density for this image. Committing to one of the two gates is better than committing to neither of them.
 
-__The member with the lowest mutual information is the one least affected by perception uncertainty.__ Each latent sample $$\mathbf{z}_{i}$$ is a plausible reading of the scene by the perception component. The mutual information in Equation \eqref{eq:mi-entropy} measures how much the velocity predicted by an ensemble member changes when we change the latent sample it receives: it is the total uncertainty of the member's predictions minus the uncertainty that remains, on average, once the latent sample is fixed. In our lower-bound estimate (Equation \eqref{eq:mi-lb}), a member gets a low value only when its predictions for all latent samples stay close to the same distribution, the mixture of all the system's predictions $$m(\upsilon)$$. In other words, the chosen member gives nearly the same answer however the perception component reads the scene, and that answer is consistent with what the system as a whole believes. A member with a high value is effectively reacting to perception noise. As an analogy, imagine asking five experts to judge 32 slightly different photographs of the same scene: we trust the expert whose answer is the most consistent across the photographs.
+__The chosen member reacts the least to perception noise and stays close to the rest of the system.__ Each latent sample $$\mathbf{z}_{i}$$ is a plausible reading of the scene by the perception component. Ideally, the mutual information in Equation \eqref{eq:mi-entropy} measures how much the velocity predicted by an ensemble member depends on the latent sample it receives. Our estimate (Equation \eqref{eq:mi-select}) compares each of the member's $$M$$ predictions with a single normal distribution that summarizes the predictions of *all* members (their overall mean and variance). As a result, the score of a member grows with two quantities: how much its predictions change from one latent sample to another (i.e., how strongly it reacts to perception noise), and how far its average prediction lies from the average prediction of the whole system (i.e., how much it disagrees with the other members). The score also accounts for the predicted variances, penalizing a member whose confidence differs strongly from that of the system. The chosen member is the one for which these quantities are small: it gives nearly the same answer however the perception component reads the scene, and that answer stays close to what the system as a whole predicts. As an analogy, imagine asking five experts to judge 32 slightly different photographs of the same scene: we trust the expert whose answers are the most consistent across the photographs and the closest to the panel's overall opinion.
 
-__A consistent tie-breaking rule turns a decision into a commitment.__ The UAV makes a new decision at every time step, with a new image. If the choice between two modes were arbitrary, the UAV could alternate between the left and the right gate in consecutive decisions, and end up with the same "neither gate" trajectory as the mean. A fixed preference (left and counterclockwise) makes consecutive decisions consistent, so the UAV commits to one gate. As the UAV turns towards it, the other gate tends to leave the FoV, and the ambiguity disappears.
+__A consistent tie-breaking rule turns a decision into a commitment.__ The UAV makes a new decision at every time step, with a new image. If the choice between two modes were arbitrary, the UAV could alternate between the left and the right gate in consecutive decisions, and end up with the same "neither gate" trajectory as the mean. A fixed preference (the left-most mode) makes consecutive decisions consistent, so the UAV commits to one gate. As the UAV turns towards it, the other gate tends to leave the FoV, and the ambiguity disappears.
 
-__Slowing down buys time.__ Selecting the lowest predicted forward velocity makes the UAV approach ambiguous situations cautiously. At a lower speed, the UAV collects more observations before reaching the gates, which gives it more chances to correct its trajectory, and reduces the consequences of a wrong decision. The soft vertical movement from the $$\dot{z}$$ rule follows the same principle.
+__Slowing down buys time.__ Selecting the lowest predicted forward velocity makes the UAV fly cautiously. At a lower speed, the UAV collects more observations before reaching the gates, which gives it more chances to correct its trajectory, and reduces the consequences of a wrong decision. Moreover, since the minimum is taken over the $$M$$ predictions of the chosen member, the slowdown adapts to the uncertainty: when the latent samples agree, the predictions are concentrated and the minimum is close to the mean; when the scene is ambiguous, the predictions tend to spread out, and the minimum, hence the forward velocity, drops. The soft vertical movement from the $$\dot{z}$$ rule follows the same cautious principle.
 
 It is worth noting that MI-Mode is an ad-hoc strategy: its rules are tailored to the gate noise range observed in our experiments, and there are no guarantees that it will work with higher levels of gate noise <d-cite key="arnez2023navigation"></d-cite>.
 
 ### Results With the Uncertainty-Aware Control Strategy
 
-<a href="#table:nav-models-performance-mi">Table 3</a> compares the navigation performance of the full Bayesian architecture $$\mathcal{M}_4$$ when using the expected value (mean) of its predictions and when using the MI-Mode control strategy, on the same noisy tracks as before.
+<a href="#table:nav-models-performance-mi">Table 3</a> compares the navigation performance of the fully Bayesian architecture $$\mathcal{M}_4$$ when using the expected value (mean) of its predictions and when using the MI-Mode control strategy (with the MinVelX forward velocity rule), under the same evaluation protocol as before.
 
 <table
   data-toggle="table"
@@ -520,35 +520,33 @@ It is worth noting that MI-Mode is an ad-hoc strategy: its rules are tailored to
   </thead>
 </table>
 <div class="caption">
-    Table 3: Navigation performance of the full Bayesian architecture M4 with the expected-value (mean) and the MI-Mode control strategies (average number of gates passed, out of 32).
+    Table 3: Navigation performance of the fully Bayesian architecture M4 with the expected-value (mean) and the MI-Mode control strategies (average number of gates passed, out of 32).
 </div>
 
-With the MI-Mode strategy, $$\mathcal{M}_4$$ passes 28.88 gates on average at noise level 1 (vs. 19.77 with the ensemble mean), and 23.05 gates at noise level 2 (vs. 9.22), i.e., 2.5 times more gates under the stronger perturbations, where ambiguous situations are more frequent. These results use the conservative forward velocity rule (MinVelX). The videos below show $$\mathcal{M}_4$$ flying with the two variants of the uncertainty-aware (MILB) control strategy, which differ only in how the forward velocity $$\dot{x}$$ is chosen.
+With the MI-Mode strategy, $$\mathcal{M}_4$$ passes 28.88 gates on average at noise level 1 (vs. 19.77 with the ensemble mean), and 23.05 gates at noise level 2 (vs. 9.22), i.e., 2.5 times as many gates under the stronger perturbations, where ambiguous situations are more frequent. The videos below show $$\mathcal{M}_4$$ flying with the two variants of the strategy, which differ only in the forward velocity rule.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0 text-center">
         {% include video.liquid path="https://www.youtube.com/embed/wKUf5Fis4co" class="img-fluid rounded z-depth-1" %}
-        <div class="caption">UAV navigation model M4 with the MILB strategy, MinVelX variant: lowest predicted forward velocity \(\dot{x}\)</div>
+        <div class="caption">UAV navigation model M4 with the MI-Mode (MILB) strategy, MinVelX variant: lowest predicted forward velocity \(\dot{x}\)</div>
     </div>
     <div class="col-sm mt-3 mt-md-0 text-center">
         {% include video.liquid path="https://www.youtube.com/embed/4v-SlXpBl8Q" class="img-fluid rounded z-depth-1" %}
-        <div class="caption">UAV navigation model M4 with the MILB strategy, Mode variant: mode of the predicted forward velocities \(\dot{x}\)</div>
+        <div class="caption">UAV navigation model M4 with the MI-Mode (MILB) strategy, modal forward velocity variant (Mode): mode of the predicted forward velocities \(\dot{x}\)</div>
     </div>
 </div>
 
-Therefore, we can answer <a href="#rq:rq3">RQ-3</a> positively: using the predictive uncertainty of the system at runtime, to choose which predictions to trust and how to act on them, substantially improves the navigation performance and robustness of the full Bayesian architecture, without retraining any component.
-
-<!-- This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>. -->
+Therefore, we can answer <a href="#rq:rq3">RQ-3</a> positively: using the predictive uncertainty of the system at runtime, to choose which predictions to trust and how to act on them, substantially improves the navigation performance and robustness of the fully Bayesian architecture, without retraining any component.
 
 ## Conclusion
 
-In this post, we described how to quantify, propagate, and use uncertainty along a minimalistic end-to-end DNN-based UAV navigation pipeline built on Bayesian Deep Learning. The perception component, a CMVAE augmented with Monte Carlo Dropout, produces a distribution over latent representations rather than a single point estimate, capturing epistemic uncertainty about the environment. The control component, a deep ensemble of probabilistic MLP policies trained with the heteroscedastic loss, consumes those latent samples through the BNN+LV formulation, allowing uncertainty to flow from perception through to the final velocity commands.
+In this post, we described how to quantify, propagate, and use uncertainty along a minimalistic end-to-end DNN-based UAV navigation pipeline built on Bayesian Deep Learning. The perception component, a CMVAE augmented with Monte Carlo Dropout, produces a set of latent representation samples that reflects the epistemic uncertainty of the perception encoder. The control component, a deep ensemble of probabilistic MLP policies trained with the heteroscedastic loss, consumes those latent samples through the BNN+LV formulation, allowing uncertainty to flow from perception through to the final velocity commands.
 
-Regarding **RQ-1**, our experiments show that incorporating uncertainty throughout the navigation pipeline improves the robustness to environmental perturbations (gate position noise), but only modestly when the UAV is controlled with the expected value of the predictions. The full Bayesian architecture $$\mathcal{M}_4$$ is the best model at both noise levels, yet its advantage over the lighter partial uncertainty-aware models is small at noise level 1, and all models pass fewer than a third of the gates at noise level 2. This raises a practical tradeoff: the computational overhead of full Bayesian inference (32 MCD forward passes and 5 ensemble members, i.e., 160 control prediction samples) yields only modest gains when its predictions are used naively.
+Regarding **RQ-1**, our experiments show that incorporating uncertainty throughout the navigation pipeline improves the robustness to environmental perturbations (gate position noise), but only modestly when the UAV is controlled with the expected value of the predictions. The fully Bayesian architecture $$\mathcal{M}_4$$ is the best model at both noise levels, yet its advantage over the lighter partial uncertainty-aware models is small at noise level 1, and all models pass fewer than a third of the gates at noise level 2. This raises a practical tradeoff: the computational overhead of full Bayesian inference (32 MCD forward passes and 5 ensemble members, i.e., 160 control prediction samples) yields only modest gains when its predictions are used naively.
 
-Regarding **RQ-2**, the double-gate experiment provides a clear mechanistic explanation. When two gates simultaneously appear in the UAV's field of view, a direct consequence of gate position noise, the navigation architecture faces a genuinely ambiguous situation. The BDL pipeline faithfully reflects this: the ensemble members produce **multimodal predictive distributions** over lateral and yaw velocities, with two well-separated modes corresponding to "fly toward the left gate" and "fly toward the right gate". This is actually a strength of the uncertainty-aware architecture, since it correctly identifies the ambiguity. However, the ensemble expected value averages across the two modes, producing a velocity command that does not steer toward either gate. The result is degraded navigation in exactly those situations where uncertainty is highest.
+Regarding **RQ-2**, the double-gate experiment suggests a mechanistic explanation, which the MI-Mode results support. When two gates simultaneously appear in the UAV's field of view, a direct consequence of gate position noise, the navigation architecture faces a genuinely ambiguous situation. The BDL pipeline reflects this: the ensemble members produce **multimodal predictive distributions** over lateral and yaw velocities, with two modes that can be associated with the two gates in the field of view. This is actually a strength of the uncertainty-aware architecture, since it identifies the ambiguity. However, the ensemble expected value averages across the two modes, which can produce a velocity command that does not steer toward either gate. The result is degraded navigation in exactly those situations where uncertainty is highest.
 
-Regarding **RQ-3**, using the system's own uncertainty at runtime makes the difference. The MI-Mode strategy chooses, for each velocity command, the ensemble member whose predictions are the least affected by the perception uncertainty (lowest mutual information), acts on a mode of its predictive distribution with a consistent tie-breaking rule, and slows down when facing ambiguity. With the same model and the same predictions, the average number of gates passed increases from 19.77 to 28.88 at noise level 1, and from 9.22 to 23.05 at noise level 2. In short, capturing uncertainty is only half of the job; the other half is to use it in the decisions of the system. In this sense, BDL does not just marginally improve performance; it exposes *when and why* the system struggles, which is arguably the most valuable property for safety-critical autonomous systems <d-cite key="mcallister2017concrete"></d-cite>.
+Regarding **RQ-3**, using the system's own uncertainty at runtime makes the difference. The MI-Mode strategy chooses, for each velocity command, the ensemble member whose predictions change the least with the perception uncertainty and stay closest to the average prediction of the whole system (lowest mutual-information score), acts on a mode of its predictive distribution for the lateral, yaw, and vertical velocities with a consistent tie-breaking rule, and conservatively takes the lowest predicted forward velocity. With the same model and the same predictions, the average number of gates passed increases from 19.77 to 28.88 at noise level 1, and from 9.22 to 23.05 at noise level 2. In short, capturing uncertainty is only half of the job; the other half is to use it in the decisions of the system. Beyond the performance gains, BDL exposes *when and why* the system struggles, which is arguably the most valuable property for safety-critical autonomous systems <d-cite key="mcallister2017concrete"></d-cite>.
 
 Nevertheless, MI-Mode remains an ad-hoc strategy, tailored to the identified critical situations and the gate noise levels in our experiments, and there are no guarantees that it will be robust to higher environmental perturbations. An exciting line for future work is exploring, designing, and implementing behavior models that can be triggered according to the current UAV situation, e.g., based on uncertainty and multimodality detection. In addition, sampling-free methods for uncertainty estimation <d-cite key="charpentier2021natural"></d-cite> could reduce the computational budget and memory footprint of our approach.
 
