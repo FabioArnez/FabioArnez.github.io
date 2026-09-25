@@ -6,6 +6,7 @@ description: Course materials, schedules, and resources for classes taught.
 nav: true
 nav_order: 7
 calendar: true
+published: false # teaching tab and page hidden from the site
 ---
 
 This page displays a collection of courses with detailed schedules, materials, and resources. You can organize your courses by years, terms, or topics.

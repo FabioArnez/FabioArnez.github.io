@@ -162,7 +162,7 @@ collections:
   projects:
     output: true
   teachings:
-    output: true
+    output: false # teaching page is unpublished (see _pages/teaching.md)
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
