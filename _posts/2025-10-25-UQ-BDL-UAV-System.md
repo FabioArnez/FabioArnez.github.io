@@ -399,7 +399,21 @@ In particular, consider the double-gate case from <a href="#fig:track-with-noise
     Figure 10: Predicted (mean $\hat{\mu})$ lateral velocity $\dot{y}$ and yaw angular velocity $\dot{\psi}$, for each control component ensemble member $\pi$.
 </div>
 
-This controlled experiment reveals that the introduced ambiguity (two gates) in the input image for the UAV DNN-based navigation architecture, is also reflected in the predicted control actions. The predicted control commands that will move the UAV towards one of the two gates, i.e., $\hat{\dot{y}}$ (lateral vel. left or right) and $\hat{\dot{\psi}}$ (yaw rotation cw and ccw), present **multimodal distributions** fo reach ensemble member in the control component. This situation suggest the posibility of two likely values for the control command, which is a clear indication of the uncertainty in the control command.
+This controlled experiment reveals that the introduced ambiguity (two gates) in the input image for the UAV DNN-based navigation architecture, is also reflected in the predicted control actions. The predicted control commands that will move the UAV towards one of the two gates, i.e., $\hat{\dot{y}}$ (lateral vel. left or right) and $\hat{\dot{\psi}}$ (yaw rotation cw and ccw), present **multimodal distributions** fo reach ensemble member in the control component. These observations suggest that, for the provided input image (double-gate), there are two possible control actions that can be taken by the UAV to navigate through the gates, which is a clear indication of the uncertainty in the predicted output control commands.
+
+
+In the control component, assigning the same weight to each ensemble member can result in a sub-optimal ensemble mixture when facing input samples that have some degree of ambiquity (e.g., double-gates) since the predictions can be multimodal distributions, as presented in <a href="#fig:double-gate-preds-vy-vyaw">Figure 10</a>.
+In the case of ambiguity in the input image, and multimodal distributions in the predicted control actions we can identify two possible high-risk scenarios for the whole control component predictions:
+
+1. The predictions of one ensemble member disagree and are multi-modal (e.g., bi-modal), predicting a UAV movement to the left and right with the same probability.
+2. The predictions from one ensemble member could attempt to move the UAV to the left (gaussian distribution), while the predictions from another ensemble could try to move the UAV to the right (i.e., disagreement among ensemble members).
+
+Simply using the expected value of the predictions, $$\mathbf{\hat{y}}_{\mu} = \mathbb{E}([\hat{\mu}_{\dot{x} }, \hat{\mu}_{\dot{y}}, \hat{\mu}_{\dot{z}}, \hat{\mu}_{\dot{\psi}}])$$, in both previous cases will lead to taking a straight movement of the UAV, with a potential tragic result (e.g., a crash), or ignoring the mission task (e.g., not passing through the gate by choosing a path between the 2 gates). Therefore, these observations along with the potentiall pitfalls of choosing the expected value of the predictions, can explain the marginal performance improvement from the full uncertainty-aware navigation architecture.
+
+### Uncertainty-Aware Control Strategy
+
+
+
 
 <!-- This is my thesis citation <d-cite key="arnez2023navigation"></d-cite>. This is an article citation <d-cite key="ollier2023towards"></d-cite>. This is a thesis citation <d-cite key="feng2021uncertainty"></d-cite>. -->
 
