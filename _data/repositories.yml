@@ -4,9 +4,10 @@ github_users:
 repo_description_lines_max: 2
 
 github_repos:
+  - CEA-LIST/runia_core
+  - FabioArnez/sigreg-vfe-correspondence-lean
   - FabioArnez/LaREx
   - FabioArnez/mav_trajectory_generation
   - FabioArnez/ViT-Classification
-  - FabioArnez/deep-learning-tutorial
   - FabioArnez/GTSRB-Uncertainty
 
