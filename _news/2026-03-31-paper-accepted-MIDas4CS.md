@@ -12,7 +12,7 @@ Our paper _"Digital Twins and World Models: A Systematic Taxonomic Disambiguatio
 ---
 #### Digital Twins and World Models: A Systematic Taxonomic Disambiguation
 
-Authors: Fabio Arnez <br/><br/>
+Authors: Kunal Suri, Fabio Arnez <br/><br/>
 [MIDas4CS 2026 Workshop](https://midas4cs.github.io/2026/) at [CAiSE 2026](https://caise2026.unibz.it/), Verona, Italy.
 
 ---
