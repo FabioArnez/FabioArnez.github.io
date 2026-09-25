@@ -51,13 +51,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "nav-teaching",
-          title: "teaching",
-          description: "Course materials, schedules, and resources for classes taught.",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/teaching/";
-          },
         },{id: "post-quantifying-and-using-uncertainty-in-deep-learning-based-uav-navigation",
         
           title: "Quantifying and Using Uncertainty in Deep Learning-based UAV Navigation",
