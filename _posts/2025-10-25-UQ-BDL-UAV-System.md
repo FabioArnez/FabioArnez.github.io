@@ -293,7 +293,7 @@ $$
 \end{align*}
 $$
 
-We measure the system performance by the average number of gates passed in six different noisy tracks, where each navigation model has two trials on each track. A UAV mission considers a maximum of 32 gates, which is equivalent to 4 laps (8 gates/lap).
+We measure the system performance by the average number of gates passed in six different noisy tracks, where each navigation model has two trials on each track. A UAV mission considers a maximum of 32 gates, which is equivalent to 4 laps (8 gates/lap), and a trial ends as soon as the UAV fails to pass a gate.
 
 With this experimental setup, we seek to answer the following research question:
 
