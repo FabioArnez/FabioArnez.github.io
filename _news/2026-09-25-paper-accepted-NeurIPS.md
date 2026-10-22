@@ -12,7 +12,7 @@ Our paper _"Disentangling the Good From the Bad: Quantization-Induced Flips Are 
 ---
 #### Disentangling the Good From the Bad: Quantization-Induced Flips Are Not Random
 
-Authors: Aymen Bouguerra, Alexandra Gomez-Villa, Chokri Mraidha, and Fabio Arnez <br/><br/>
+Authors: Aymen Bouguerra, Fabio Arnez, Alexandra Gomez-Villa, and Chokri Mraidha <br/><br/>
 [NeurIPS 2026](https://neurips.cc/Conferences/2026), Sydney, Atlanta & Paris.
 
 ---

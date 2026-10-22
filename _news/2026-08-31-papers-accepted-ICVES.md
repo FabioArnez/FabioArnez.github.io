@@ -12,7 +12,7 @@ Two of our papers were accepted at IEEE ICVES 2026 (November 9-11, 2026, Cochaba
 ---
 #### Quantization and Corruption Robustness in Deployed Road-Scene Perception
 
-Authors: Aymen Bouguerra, Ansgar Radermacher, Chokri Mraidha, and Fabio Arnez <br/><br/>
+Authors: Aymen Bouguerra, Fabio Arnez, Ansgar Radermacher, and Chokri Mraidha <br/><br/>
 
 #### Drive-SynOOD-OD: A Diffusion-Inpainted Synthetic Out-of-Distribution Object Detection Benchmark for Autonomous Driving
 

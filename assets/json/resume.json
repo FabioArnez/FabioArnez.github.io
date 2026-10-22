@@ -218,14 +218,14 @@
       "publisher": "Conference on Neural Information Processing Systems (NeurIPS), to appear",
       "releaseDate": "2026-12",
       "url": "/publications/",
-      "summary": "Bouguerra, A., Gomez-Villa, A., Mraidha, C., Arnez, F."
+      "summary": "Bouguerra, A., Arnez, F., Gomez-Villa, A., Mraidha, C."
     },
     {
       "name": "Quantization and Corruption Robustness in Deployed Road-Scene Perception",
       "publisher": "IEEE International Conference on Vehicular Electronics and Safety (ICVES), to appear",
       "releaseDate": "2026-11",
       "url": "/publications/",
-      "summary": "Bouguerra, A., Radermacher, A., Mraidha, C., Arnez, F."
+      "summary": "Bouguerra, A., Arnez, F., Radermacher, A., Mraidha, C."
     },
     {
       "name": "Drive-SynOOD-OD: A Diffusion-Inpainted Synthetic Out-of-Distribution Object Detection Benchmark for Autonomous Driving",
